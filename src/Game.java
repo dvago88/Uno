@@ -4,6 +4,7 @@ import java.util.LinkedList;
 public class Game {
     private LinkedList<String> mDequeOfCards = new LinkedList<>();
     private String[] mColores = {"R", "M", "V", "A", "R", "M", "V", "A"};
+    private Prompter prompter;
 
     public Game() {
         fillCards();
@@ -27,7 +28,9 @@ public class Game {
         Collections.shuffle(list);
     }
 
+    public void dealTheCards(){
 
+    }
 
 
 }
