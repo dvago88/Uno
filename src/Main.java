@@ -15,6 +15,21 @@ public class Main {
                 System.out.println("");
             }
         }
+        iterator=game.getFirstRival().listIterator();
+        System.out.println("");
+        while(iterator.hasNext()){
+            System.out.print(iterator.next()+" ");
+        }
+        System.out.println("");
+        iterator=game.getSecondRival().listIterator();
+        while(iterator.hasNext()){
+            System.out.print(iterator.next()+" ");
+        }
+        System.out.println("");
+        iterator=game.getThirdRival().listIterator();
+        while(iterator.hasNext()){
+            System.out.print(iterator.next()+" ");
+        }
 
     }
 
