@@ -1,24 +1,25 @@
 
 public class Game {
-    private int[][] mCards =new int[8][9];
+    private String[][] mCards =new String[8][9];
+    private String [] mColores={"R","M","V","A","R","M","V","A"};
 
     public Game() {
-
+        fillCards();
     }
 
-    public int[][] getCards() {
+    public String[][] getCards() {
         return mCards;
     }
 
-    public void setCards(int[][] cards) {
+    public void setCards(String[][] cards) {
         mCards = cards;
     }
 
     public void fillCards(){
         for(int i=0;i<8;i++){
-            int counter=0;
+            int counter=1;
             for(int j=0;j<9;j++){
-                mCards[i][j]=counter;
+                mCards[i][j]=counter+mColores[i];
                 counter++;
             }
         }
