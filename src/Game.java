@@ -1,16 +1,17 @@
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 
 public class Game {
     private LinkedList<String> mDequeOfCards = new LinkedList<>();
     private String[] mColores = {"R", "M", "V", "A", "R", "M", "V", "A"};
 
-
-
     public Game() {
         fillCards();
         shuffleCards(mDequeOfCards);
+    }
+
+    public LinkedList<String> getDequeOfCards() {
+        return mDequeOfCards;
     }
 
     public void fillCards() {
@@ -25,6 +26,8 @@ public class Game {
     public void shuffleCards(LinkedList<String> list){
         Collections.shuffle(list);
     }
+
+
 
 
 }
