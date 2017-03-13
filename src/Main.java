@@ -1,9 +1,12 @@
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
-        Game game=new Game();
+        Jugador jugador=new Jugador();
+        Game game=new Game(jugador);
         Iterator<String> iterator;
         iterator=game.getDequeOfCards().listIterator();
         int i=0;
@@ -27,6 +30,11 @@ public class Main {
         }
         System.out.println("");
         iterator=game.getThirdRival().listIterator();
+        while(iterator.hasNext()){
+            System.out.print(iterator.next()+" ");
+        }
+        System.out.println("");
+        iterator=jugador.getMyCards().listIterator();
         while(iterator.hasNext()){
             System.out.print(iterator.next()+" ");
         }

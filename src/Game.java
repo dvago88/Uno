@@ -7,12 +7,15 @@ public class Game {
     private LinkedList<String> mFirstRival = new LinkedList<>();
     private LinkedList<String> mSecondRival = new LinkedList<>();
     private LinkedList<String> mThirdRival = new LinkedList<>();
+    private LinkedList<String> mPlayer = new LinkedList<>();
     private String[] mColores = {"R", "M", "V", "A", "R", "M", "V", "A"};
     private Prompter prompter=new Prompter();
     private Iterator<String> iterator;
+    private Jugador mJugador;
 
     //constructor:
-    public Game() {
+    public Game(Jugador jugador) {
+        mJugador=jugador;
         fillCards();
         shuffleCards(mDequeOfCards);
         prompter.howManyPlayers();
@@ -53,15 +56,18 @@ public class Game {
 
     public void dealTheCards() {
         int numberOfRivals = prompter.getNumberOfPlayers();
+        iterator=mDequeOfCards.listIterator();
+        for(int j=0;j<7;j++){
+            mPlayer.add(iterator.next());
+        }
+        mJugador.setMyCards(mPlayer);
         switch (numberOfRivals) {
             case 1:
-                iterator=mDequeOfCards.listIterator();
                 for(int i=0;i<7;i++){
                     mFirstRival.add(iterator.next());
                 }
                 break;
             case 2:
-                iterator=mDequeOfCards.listIterator();
                 for(int i=0;i<7;i++){
                     mFirstRival.add(iterator.next());
                 }
@@ -70,7 +76,6 @@ public class Game {
                 }
                 break;
             case 3:
-                iterator=mDequeOfCards.listIterator();
                 for(int i=0;i<7;i++){
                     mFirstRival.add(iterator.next());
                 }
