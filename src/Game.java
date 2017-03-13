@@ -9,12 +9,13 @@ public class Game {
     private LinkedList<String> mThirdRival = new LinkedList<>();
     private LinkedList<String> mPlayer = new LinkedList<>();
     private String[] mColores = {"R", "M", "V", "A", "R", "M", "V", "A"};
-    private Prompter prompter=new Prompter();
-    private Iterator<String> iterator;
     private Jugador mJugador;
+    private Prompter prompter;
+    private Iterator<String> iterator;
 
     //constructor:
     public Game(Jugador jugador) {
+        prompter=new Prompter(jugador);
         mJugador=jugador;
         fillCards();
         shuffleCards(mDequeOfCards);

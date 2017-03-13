@@ -7,6 +7,7 @@ public class Main {
 
         Jugador jugador=new Jugador();
         Game game=new Game(jugador);
+        Prompter prompter=new Prompter(jugador);
         Iterator<String> iterator;
         iterator=game.getDequeOfCards().listIterator();
         int i=0;
@@ -33,11 +34,8 @@ public class Main {
         while(iterator.hasNext()){
             System.out.print(iterator.next()+" ");
         }
-        System.out.println("");
-        iterator=jugador.getMyCards().listIterator();
-        while(iterator.hasNext()){
-            System.out.print(iterator.next()+" ");
-        }
+
+        prompter.showPlayerCards();
 
     }
 
