@@ -10,7 +10,7 @@ public class Prompter {
     }
 
     public void howManyPlayers() {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner=new Scanner(System.in);
         int jugadores;
         do {
             System.out.println("Cuantos rivales?");
@@ -28,11 +28,22 @@ public class Prompter {
         iterator=mJugador.getMyCards().listIterator();
         System.out.println("");
         System.out.println("============================");
+        System.out.println("SUS CARTAS:");
         while(iterator.hasNext()){
             System.out.print(iterator.next()+" ");
         }
         System.out.println("");
         System.out.println("============================");
 
+    }
+
+    public int playerTurn() {
+        Scanner scanner=new Scanner(System.in);
+        int playedCard;
+        do {
+            System.out.println("Introduzca el numero de la posicion de su carta");
+            playedCard = scanner.nextInt();
+        }while(playedCard>=mJugador.getMyCards().size());
+        return playedCard;
     }
 }

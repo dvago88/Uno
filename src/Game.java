@@ -11,7 +11,6 @@ public class Game {
     private String[] mColores = {"R", "M", "V", "A", "R", "M", "V", "A"};
     private Jugador mJugador;
     private Prompter prompter;
-    private Iterator<String> iterator;
 
     //constructor:
     public Game(Jugador jugador) {
@@ -41,7 +40,7 @@ public class Game {
     }
 
 
-    public void fillCards() {
+    private void fillCards() {
         for (int i = 0; i < 8; i++) {
             int counter = 1;
             for (int j = 0; j < 9; j++) {
@@ -57,7 +56,7 @@ public class Game {
 
     public void dealTheCards() {
         int numberOfRivals = prompter.getNumberOfPlayers();
-        iterator=mDequeOfCards.listIterator();
+        Iterator<String> iterator = mDequeOfCards.listIterator();
         for(int j=0;j<7;j++){
             mPlayer.add(iterator.next());
         }
@@ -88,6 +87,11 @@ public class Game {
                 }
                 break;
         }
+
+    }
+
+    public void play(){
+        int playedCard=prompter.playerTurn();
 
     }
 

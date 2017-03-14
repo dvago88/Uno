@@ -1,6 +1,4 @@
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -11,31 +9,37 @@ public class Main {
         Iterator<String> iterator;
         iterator=game.getDequeOfCards().listIterator();
         int i=0;
-        while (iterator.hasNext()){
-            System.out.print(iterator.next()+" ");
+        boolean gameOver=false;
+
+        while (iterator.hasNext()) {
+            System.out.print(iterator.next() + " ");
             i++;
-            if (i==9){
-                i=0;
+            if (i == 9) {
+                i = 0;
                 System.out.println("");
             }
         }
-        iterator=game.getFirstRival().listIterator();
+        iterator = game.getFirstRival().listIterator();
         System.out.println("");
-        while(iterator.hasNext()){
-            System.out.print(iterator.next()+" ");
+        while (iterator.hasNext()) {
+            System.out.print(iterator.next() + " ");
         }
         System.out.println("");
-        iterator=game.getSecondRival().listIterator();
-        while(iterator.hasNext()){
-            System.out.print(iterator.next()+" ");
+        iterator = game.getSecondRival().listIterator();
+        while (iterator.hasNext()) {
+            System.out.print(iterator.next() + " ");
         }
         System.out.println("");
-        iterator=game.getThirdRival().listIterator();
-        while(iterator.hasNext()){
-            System.out.print(iterator.next()+" ");
+        iterator = game.getThirdRival().listIterator();
+        while (iterator.hasNext()) {
+            System.out.print(iterator.next() + " ");
         }
+        while(!gameOver) {
 
-        prompter.showPlayerCards();
+            prompter.showPlayerCards();
+            game.play();
+            gameOver=true;
+        }
 
     }
 
