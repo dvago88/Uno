@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class Prompter {
     private int mNumberOfPlayers;
     private Jugador mJugador;
+    private Game game;
 
     public Prompter(Jugador jugador) {
         mJugador = jugador;
@@ -45,5 +46,10 @@ public class Prompter {
             playedCard = scanner.nextInt();
         }while(playedCard>=mJugador.getMyCards().size());
         return playedCard;
+    }
+
+    public String table(){
+
+        return "";
     }
 }

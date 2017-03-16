@@ -1,23 +1,25 @@
-import java.util.Collections;
-import java.util.Iterator;
+import java.util.ArrayDeque;
 import java.util.LinkedList;
+import java.util.Queue;
 
 public class Game {
-    private LinkedList<String> mDequeOfCards = new LinkedList<>();
+    private String[] mRawCards = new String[72];
+    private Queue<String> mDequeOfCards=new ArrayDeque<>();
     private LinkedList<String> mFirstRival = new LinkedList<>();
     private LinkedList<String> mSecondRival = new LinkedList<>();
     private LinkedList<String> mThirdRival = new LinkedList<>();
     private LinkedList<String> mPlayer = new LinkedList<>();
-    private String[] mColores = {"R", "M", "V", "A", "R", "M", "V", "A"};
+    private String[] mColores = {"R", "M", "V", "A"};
     private Jugador mJugador;
     private Prompter prompter;
 
     //constructor:
+    //TODO fix the constructor, you shouldn't call methods from here
     public Game(Jugador jugador) {
-        prompter=new Prompter(jugador);
-        mJugador=jugador;
+        prompter = new Prompter(jugador);
+        mJugador = jugador;
         fillCards();
-        shuffleCards(mDequeOfCards);
+        shuffleCards(mRawCards);
         prompter.howManyPlayers();
         dealTheCards();
     }
@@ -35,63 +37,67 @@ public class Game {
         return mThirdRival;
     }
 
-    public LinkedList<String> getDequeOfCards() {
-        return mDequeOfCards;
+    public String[] getDequeOfCards() {
+        return mRawCards;
     }
 
 
     private void fillCards() {
-        for (int i = 0; i < 8; i++) {
-            int counter = 1;
-            for (int j = 0; j < 9; j++) {
-                mDequeOfCards.add(counter + mColores[i]);
-                counter++;
+        int j = 0;
+        for (int i = 1; i <= 72; i++) {
+            mRawCards[i] = i + mColores[j];
+            j++;
+            if (j == 4) {
+                j = 0;
             }
+        }
+        shuffleCards(mRawCards);
+
+        for(String i:mRawCards){
+            mDequeOfCards.add(i);
         }
     }
 
-    public void shuffleCards(LinkedList<String> list) {
-        Collections.shuffle(list);
+    public void shuffleCards(String[] cards) {
     }
 
     public void dealTheCards() {
         int numberOfRivals = prompter.getNumberOfPlayers();
-        Iterator<String> iterator = mDequeOfCards.listIterator();
-        for(int j=0;j<7;j++){
-            mPlayer.add(iterator.next());
+        for (int j = 0; j < 7; j++) {
+            mPlayer.add(mDequeOfCards.poll());
         }
         mJugador.setMyCards(mPlayer);
         switch (numberOfRivals) {
             case 1:
-                for(int i=0;i<7;i++){
-                    mFirstRival.add(iterator.next());
+                for (int i = 0; i < 7; i++) {
+                    mFirstRival.add(mDequeOfCards.poll());
                 }
                 break;
             case 2:
-                for(int i=0;i<7;i++){
-                    mFirstRival.add(iterator.next());
+                for (int i = 0; i < 7; i++) {
+                    mFirstRival.add(mDequeOfCards.poll());
                 }
-                for(int i=0;i<7;i++){
-                    mSecondRival.add(iterator.next());
+                for (int i = 0; i < 7; i++) {
+                    mSecondRival.add(mDequeOfCards.poll());
                 }
                 break;
             case 3:
-                for(int i=0;i<7;i++){
-                    mFirstRival.add(iterator.next());
+                for (int i = 0; i < 7; i++) {
+                    mFirstRival.add(mDequeOfCards.poll());
                 }
-                for(int i=0;i<7;i++){
-                    mSecondRival.add(iterator.next());
+                for (int i = 0; i < 7; i++) {
+                    mSecondRival.add(mDequeOfCards.poll());
                 }
-                for(int i=0;i<7;i++){
-                    mThirdRival.add(iterator.next());
+                for (int i = 0; i < 7; i++) {
+                    mThirdRival.add(mDequeOfCards.poll());
                 }
                 break;
         }
 
     }
 
-    public void play(){
-        int playedCard=prompter.playerTurn();
+    public void play() {
+        int playedCard = prompter.playerTurn();
 
     }
 
