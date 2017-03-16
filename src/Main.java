@@ -5,10 +5,13 @@ public class Main {
 
         Jugador jugador = new Jugador();
         Game game = new Game(jugador);
-        Prompter prompter = new Prompter(jugador);
+        Prompter prompter = new Prompter(jugador,game);
         Iterator<String> iterator;
-        int i = 0;
         boolean gameOver = false;
+
+        game.howManyPlayers();
+        game.fillCards();
+        game.dealTheCards();
 
         for (int j = 1; j <= 72; j++) {
             System.out.print(game.getRawCards()[j - 1] + " ");
