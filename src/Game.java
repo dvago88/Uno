@@ -10,9 +10,9 @@ public class Game {
     private String[] mColores = {"R", "M", "V", "A"};
     private Jugador mJugador;
     private int mNumberOfRivals;
+    private GameLogic gameLogic;
 
     //constructor:
-    //TODO fix the constructor, you shouldn't call methods from here
     public Game(Jugador jugador) {
         mJugador = jugador;
         mFirstRival = new LinkedList<>();
@@ -112,7 +112,15 @@ public class Game {
     }
 
     public void play() {
-
+        String playedCard="";
+        if(playerTurn()>0){
+            playedCard=mJugador.getMyCards().get(playerTurn());
+            mJugador.getMyCards().remove(playerTurn());
+        }
+        //TODO terminar este loop para que todos los jugadores jueguen
+        for(int i=1;i<=mNumberOfRivals;i++){
+            gameLogic=new GameLogic(playedCard,mFirstRival);
+        }
 
     }
 
@@ -124,6 +132,19 @@ public class Game {
             jugadores = scanner.nextInt();
         } while (jugadores < 1 || jugadores > 3);
         mNumberOfRivals =jugadores;
+    }
+
+
+    public int playerTurn() {
+        Scanner scanner=new Scanner(System.in);
+        int i;
+        do {
+            System.out.println("Introduzca el numero de la posicion de su carta o 0 si no tiene carta");
+            i = scanner.nextInt();
+        }while(i-1>=mJugador.getMyCards().size());
+
+
+        return i;
     }
 
 

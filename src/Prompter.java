@@ -25,15 +25,7 @@ public class Prompter {
 
     }
 
-    public int playerTurn() {
-        Scanner scanner=new Scanner(System.in);
-        int playedCard;
-        do {
-            System.out.println("Introduzca el numero de la posicion de su carta");
-            playedCard = scanner.nextInt();
-        }while(playedCard>=mJugador.getMyCards().size());
-        return playedCard;
-    }
+
 
     public String table(){
 
