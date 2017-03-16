@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="bd50f283-7532-41d8-bbaf-f1d84cfd664a" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Game.java" afterPath="$PROJECT_DIR$/src/Game.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main.java" afterPath="$PROJECT_DIR$/src/Main.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -500,7 +498,14 @@
       <option name="project" value="LOCAL" />
       <updated>1489639731240</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="lista el metodo de mezcla de cartas">
+      <created>1489641331154</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1489641331154</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -579,7 +584,8 @@
     <MESSAGE value="Agregado metodo al prompter para mostrar las cartas del jugador" />
     <MESSAGE value="Creacion de el metodo para el turno del jugador" />
     <MESSAGE value="Cambiado la lista de cartas por un un array y luego un queue" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cambiado la lista de cartas por un un array y luego un queue" />
+    <MESSAGE value="lista el metodo de mezcla de cartas" />
+    <option name="LAST_COMMIT_MESSAGE" value="lista el metodo de mezcla de cartas" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
