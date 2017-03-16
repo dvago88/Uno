@@ -3,22 +3,29 @@ import java.util.Iterator;
 public class Main {
     public static void main(String[] args) {
 
-        Jugador jugador=new Jugador();
-        Game game=new Game(jugador);
-        Prompter prompter=new Prompter(jugador);
+        Jugador jugador = new Jugador();
+        Game game = new Game(jugador);
+        Prompter prompter = new Prompter(jugador);
         Iterator<String> iterator;
-        iterator=game.getDequeOfCards().listIterator();
-        int i=0;
-        boolean gameOver=false;
+        int i = 0;
+        boolean gameOver = false;
 
-        while (iterator.hasNext()) {
-            System.out.print(iterator.next() + " ");
-            i++;
-            if (i == 9) {
-                i = 0;
+        for (int j = 1; j <= 72; j++) {
+            System.out.print(game.getRawCards()[j - 1] + " ");
+            if (j % 9 == 0) {
                 System.out.println("");
             }
         }
+        System.out.println("");
+        System.out.println("");
+        for (int j = 1; j <= 72; j++) {
+            System.out.print(game.getDequeOfCards().poll() + " ");
+            if (j % 9 == 0) {
+                System.out.println("");
+            }
+        }
+
+
         iterator = game.getFirstRival().listIterator();
         System.out.println("");
         while (iterator.hasNext()) {
@@ -34,11 +41,11 @@ public class Main {
         while (iterator.hasNext()) {
             System.out.print(iterator.next() + " ");
         }
-        while(!gameOver) {
+        while (!gameOver) {
 
             prompter.showPlayerCards();
             game.play();
-            gameOver=true;
+            gameOver = true;
         }
 
     }
