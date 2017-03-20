@@ -11,6 +11,7 @@ public class Game {
     private Jugador mJugador;
     private int mNumberOfRivals;
     private GameLogic gameLogic;
+    private String mPlayedCard;
 
     //constructor:
     public Game(Jugador jugador) {
@@ -20,6 +21,7 @@ public class Game {
         mThirdRival = new LinkedList<>();
         mPlayer = new LinkedList<>();
         mDequeOfCards = new ArrayDeque<>();
+        gameLogic = new GameLogic();
 
     }
 
@@ -42,6 +44,10 @@ public class Game {
 
     public Queue<String> getDequeOfCards() {
         return mDequeOfCards;
+    }
+
+    public String getPlayedCard() {
+        return mPlayedCard;
     }
 
     public void fillCards() {
@@ -79,9 +85,8 @@ public class Game {
     public void dealTheCards() {
 
         for (int j = 0; j < 7; j++) {
-            mPlayer.add(mDequeOfCards.poll());
+            mJugador.setMyCards(mDequeOfCards.poll());
         }
-        mJugador.setMyCards(mPlayer);
         switch (mNumberOfRivals) {
             case 1:
                 for (int i = 0; i < 7; i++) {
@@ -108,42 +113,61 @@ public class Game {
                 }
                 break;
         }
-
     }
 
     public void play() {
-        String playedCard="";
-        if(playerTurn()>0){
-            playedCard=mJugador.getMyCards().get(playerTurn());
-            mJugador.getMyCards().remove(playerTurn());
+        String aux;
+        int playerTurn = playerTurn();
+        if (playerTurn >= 0) {
+            mPlayedCard = mJugador.getMyCards().get(playerTurn);
+            mJugador.getMyCards().remove(playerTurn);
+        } else {
+            mJugador.setMyCards(mDequeOfCards.poll());
         }
-        //TODO terminar este loop para que todos los jugadores jueguen
-        for(int i=1;i<=mNumberOfRivals;i++){
-            gameLogic=new GameLogic(playedCard,mFirstRival);
+        //TODO generar logica para que se pueda jugar con menos rivales
+        aux = gameLogic.whatToPlay(mPlayedCard, mFirstRival);
+        if (!aux.equals("sin carta")) {
+            mPlayedCard = aux;
+            System.out.printf("%nAI1 jugo: %s%n", mPlayedCard);
+        } else {
+            mFirstRival.add(mDequeOfCards.poll());
+            System.out.println("AI1 arrastro carta");
         }
-
+        aux = gameLogic.whatToPlay(mPlayedCard, mSecondRival);
+        if (!aux.equals("sin carta")) {
+            mPlayedCard = aux;
+            System.out.printf("%nAI2 jugo: %s%n", mPlayedCard);
+        } else {
+            mSecondRival.add(mDequeOfCards.poll());
+            System.out.println("AI2 arrastro carta");
+        }
+        aux = gameLogic.whatToPlay(mPlayedCard, mThirdRival);
+        if (!aux.equals("sin carta")) {
+            mPlayedCard = aux;
+            System.out.printf("%nAI3 jugo: %s%n", mPlayedCard);
+        } else {
+            mThirdRival.add(mDequeOfCards.poll());
+            System.out.println("AI3 arrastro carta");
+        }
     }
 
     public void howManyPlayers() {
-        Scanner scanner=new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         int jugadores;
         do {
             System.out.println("Cuantos rivales?");
             jugadores = scanner.nextInt();
         } while (jugadores < 1 || jugadores > 3);
-        mNumberOfRivals =jugadores;
+        mNumberOfRivals = jugadores;
     }
 
-
     public int playerTurn() {
-        Scanner scanner=new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         int i;
         do {
             System.out.println("Introduzca el numero de la posicion de su carta o 0 si no tiene carta");
-            i = scanner.nextInt();
-        }while(i-1>=mJugador.getMyCards().size());
-
-
+            i = scanner.nextInt() - 1;
+        } while (i >= mJugador.getMyCards().size());
         return i;
     }
 

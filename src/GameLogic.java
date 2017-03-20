@@ -5,32 +5,30 @@ public class GameLogic {
     String mPlayedCard;
     LinkedList<String> mCards;
 
-    public GameLogic(String card, LinkedList<String> cards) {
-        mPlayedCard =card;
-        mCards=cards;
-    }
-
-    public String whatToPlay(String card, LinkedList<String> cards){
+    public String whatToPlay(String card, LinkedList<String> cards) {
+        mPlayedCard = card;
+        mCards = cards;
         String whatToPlay;
-        char color= mPlayedCard.charAt(1);
+        char color = mPlayedCard.charAt(1);
         Iterator<String> iterator;
-        iterator=mCards.listIterator();
+        iterator = mCards.listIterator();
 
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             char aux;
-            whatToPlay=iterator.next();
-            aux=whatToPlay.charAt(1);
-            if(color==aux){
+            whatToPlay = iterator.next();
+            aux = whatToPlay.charAt(1);
+            if (color == aux) {
                 iterator.remove();
                 return whatToPlay;
             }
         }
-        iterator=mCards.listIterator();
-        while(iterator.hasNext()){
+        color = mPlayedCard.charAt(0);
+        iterator = mCards.listIterator();
+        while (iterator.hasNext()) {
             char aux;
-            whatToPlay=iterator.next();
-            aux=whatToPlay.charAt(0);
-            if(color==aux){
+            whatToPlay = iterator.next();
+            aux = whatToPlay.charAt(0);
+            if (color == aux) {
                 iterator.remove();
                 return whatToPlay;
             }

@@ -6,29 +6,27 @@ public class Prompter {
     private Jugador mJugador;
     private Game mGame;
 
-    public Prompter(Jugador jugador,Game game) {
+    public Prompter(Jugador jugador, Game game) {
         mJugador = jugador;
-        mGame=game;
+        mGame = game;
     }
 
-    public void showPlayerCards(){
+    public void showPlayerCards() {
         Iterator<String> iterator;
-        iterator=mJugador.getMyCards().listIterator();
+        iterator = mJugador.getMyCards().listIterator();
         System.out.println("");
         System.out.println("============================");
         System.out.println("SUS CARTAS:");
-        while(iterator.hasNext()){
-            System.out.print(iterator.next()+" ");
+        while (iterator.hasNext()) {
+            System.out.print(iterator.next() + " ");
         }
         System.out.println("");
         System.out.println("============================");
 
     }
 
-
-
-    public String table(){
-
-        return "";
+    public void showPlayedCard() {
+        System.out.println("La carta en juego es: " + mGame.getPlayedCard());
     }
+
 }

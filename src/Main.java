@@ -5,7 +5,7 @@ public class Main {
 
         Jugador jugador = new Jugador();
         Game game = new Game(jugador);
-        Prompter prompter = new Prompter(jugador,game);
+        Prompter prompter = new Prompter(jugador, game);
         Iterator<String> iterator;
         boolean gameOver = false;
 
@@ -21,13 +21,13 @@ public class Main {
         }
         System.out.println("");
         System.out.println("");
-        for (int j = 1; j <= 72; j++) {
+        /*for (int j = 1; j <= 72; j++) {
             System.out.print(game.getDequeOfCards().poll() + " ");
             if (j % 9 == 0) {
                 System.out.println("");
             }
         }
-
+*/
 
         iterator = game.getFirstRival().listIterator();
         System.out.println("");
@@ -45,10 +45,12 @@ public class Main {
             System.out.print(iterator.next() + " ");
         }
         while (!gameOver) {
-
+            prompter.showPlayedCard();
             prompter.showPlayerCards();
             game.play();
-            gameOver = true;
+            if (jugador.getMyCards().isEmpty() || game.getFirstRival().isEmpty() || game.getSecondRival().isEmpty() || game.getThirdRival().isEmpty()) {
+                gameOver = true;
+            }
         }
 
     }
