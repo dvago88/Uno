@@ -7,27 +7,18 @@ public class Main {
         Game game = new Game(jugador);
         Prompter prompter = new Prompter(jugador, game);
         Iterator<String> iterator;
-        boolean gameOver = false;
 
         game.howManyPlayers();
         game.fillCards();
         game.dealTheCards();
 
-        for (int j = 1; j <= 72; j++) {
+        /*for (int j = 1; j <= 72; j++) {
             System.out.print(game.getRawCards()[j - 1] + " ");
             if (j % 9 == 0) {
                 System.out.println("");
             }
         }
-        System.out.println("");
-        System.out.println("");
-        /*for (int j = 1; j <= 72; j++) {
-            System.out.print(game.getDequeOfCards().poll() + " ");
-            if (j % 9 == 0) {
-                System.out.println("");
-            }
-        }
-*/
+
 
         iterator = game.getFirstRival().listIterator();
         System.out.println("");
@@ -44,6 +35,7 @@ public class Main {
         while (iterator.hasNext()) {
             System.out.print(iterator.next() + " ");
         }
+        System.out.println("");*/
         while (!game.isGameOver()) {
             prompter.showPlayedCard();
             prompter.showPlayerCards();

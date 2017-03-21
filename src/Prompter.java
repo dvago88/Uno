@@ -26,6 +26,7 @@ public class Prompter {
     }
 
     public void showPlayedCard() {
+        System.out.println("");
         System.out.println("La carta en juego es: " + mGame.getPlayedCard());
     }
 
