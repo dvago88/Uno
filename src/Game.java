@@ -16,6 +16,7 @@ public class Game {
     private int mNumberOfRivals;
     private GameLogic gameLogic;
     private String mPlayedCard;
+    private boolean mGameOver =false;
 
     //constructor:
     public Game(Jugador jugador) {
@@ -26,7 +27,6 @@ public class Game {
         mPlayer = new LinkedList<>();
         mDequeOfCards = new ArrayDeque<>();
         gameLogic = new GameLogic();
-
     }
 
     //getters:
@@ -52,6 +52,10 @@ public class Game {
 
     public String getPlayedCard() {
         return mPlayedCard;
+    }
+
+    public boolean isGameOver() {
+        return mGameOver;
     }
 
     public void fillCards() {
@@ -87,7 +91,6 @@ public class Game {
     }
 
     public void dealTheCards() {
-
         for (int j = 0; j < 7; j++) {
             mJugador.setMyCards(mDequeOfCards.poll());
         }
@@ -128,31 +131,83 @@ public class Game {
         } else {
             mJugador.setMyCards(mDequeOfCards.poll());
         }
-        //TODO generar logica para que se pueda jugar con menos rivales
-        aux = gameLogic.whatToPlay(mPlayedCard, mFirstRival);
-        if (!aux.equals("sin carta")) {
-            mPlayedCard = aux;
-            System.out.printf("%nAI1 jugo: %s%n", mPlayedCard);
-        } else {
-            mFirstRival.add(mDequeOfCards.poll());
-            System.out.println("AI1 arrastro carta");
+        switch (mNumberOfRivals){
+            case 1:
+                aux = gameLogic.whatToPlay(mPlayedCard, mFirstRival);
+                if(mFirstRival.isEmpty()){
+                    mGameOver =true;
+                }
+                if (!aux.equals("sin carta")) {
+                    mPlayedCard = aux;
+                    System.out.printf("%nAI1 jugo: %s%n", mPlayedCard);
+                } else {
+                    mFirstRival.add(mDequeOfCards.poll());
+                    System.out.println("AI1 arrastro carta");
+                }
+                break;
+            case 2:
+                aux = gameLogic.whatToPlay(mPlayedCard, mFirstRival);
+                if(mFirstRival.isEmpty()){
+                    mGameOver =true;
+                }
+
+                if (!aux.equals("sin carta")) {
+                    mPlayedCard = aux;
+                    System.out.printf("%nAI1 jugo: %s%n", mPlayedCard);
+                } else {
+                    mFirstRival.add(mDequeOfCards.poll());
+                    System.out.println("AI1 arrastro carta");
+                }
+                aux = gameLogic.whatToPlay(mPlayedCard, mSecondRival);
+                if(mSecondRival.isEmpty()){
+                    mGameOver=true;
+                }
+                if (!aux.equals("sin carta")) {
+                    mPlayedCard = aux;
+                    System.out.printf("%nAI2 jugo: %s%n", mPlayedCard);
+                } else {
+                    mSecondRival.add(mDequeOfCards.poll());
+                    System.out.println("AI2 arrastro carta");
+                }
+                break;
+            case 3:
+                aux = gameLogic.whatToPlay(mPlayedCard, mFirstRival);
+                if(mFirstRival.isEmpty()){
+                    mGameOver =true;
+                }
+
+                if (!aux.equals("sin carta")) {
+                    mPlayedCard = aux;
+                    System.out.printf("%nAI1 jugo: %s%n", mPlayedCard);
+                } else {
+                    mFirstRival.add(mDequeOfCards.poll());
+                    System.out.println("AI1 arrastro carta");
+                }
+                aux = gameLogic.whatToPlay(mPlayedCard, mSecondRival);
+                if(mSecondRival.isEmpty()){
+                    mGameOver=true;
+                }
+                if (!aux.equals("sin carta")) {
+                    mPlayedCard = aux;
+                    System.out.printf("%nAI2 jugo: %s%n", mPlayedCard);
+                } else {
+                    mSecondRival.add(mDequeOfCards.poll());
+                    System.out.println("AI2 arrastro carta");
+                }
+                aux = gameLogic.whatToPlay(mPlayedCard, mThirdRival);
+                if(mThirdRival.isEmpty()){
+                    mGameOver=true;
+                }
+                if (!aux.equals("sin carta")) {
+                    mPlayedCard = aux;
+                    System.out.printf("%nAI3 jugo: %s%n", mPlayedCard);
+                } else {
+                    mThirdRival.add(mDequeOfCards.poll());
+                    System.out.println("AI3 arrastro carta");
+                }
+                break;
         }
-        aux = gameLogic.whatToPlay(mPlayedCard, mSecondRival);
-        if (!aux.equals("sin carta")) {
-            mPlayedCard = aux;
-            System.out.printf("%nAI2 jugo: %s%n", mPlayedCard);
-        } else {
-            mSecondRival.add(mDequeOfCards.poll());
-            System.out.println("AI2 arrastro carta");
-        }
-        aux = gameLogic.whatToPlay(mPlayedCard, mThirdRival);
-        if (!aux.equals("sin carta")) {
-            mPlayedCard = aux;
-            System.out.printf("%nAI3 jugo: %s%n", mPlayedCard);
-        } else {
-            mThirdRival.add(mDequeOfCards.poll());
-            System.out.println("AI3 arrastro carta");
-        }
+
     }
 
     public void howManyPlayers() {

@@ -44,13 +44,11 @@ public class Main {
         while (iterator.hasNext()) {
             System.out.print(iterator.next() + " ");
         }
-        while (!gameOver) {
+        while (!game.isGameOver()) {
             prompter.showPlayedCard();
             prompter.showPlayerCards();
             game.play();
-            if (jugador.getMyCards().isEmpty() || game.getFirstRival().isEmpty() || game.getSecondRival().isEmpty() || game.getThirdRival().isEmpty()) {
-                gameOver = true;
-            }
+
         }
 
     }
