@@ -1,8 +1,4 @@
-import java.util.ArrayDeque;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Game {
     private String[] mRawCards = new String[72];
@@ -17,6 +13,7 @@ public class Game {
     private GameLogic gameLogic;
     private String mPlayedCard;
     private boolean mGameOver = false;
+    private LinkedList<String> mPlayedCards;
 
     //constructor:
     public Game(Jugador jugador) {
@@ -27,6 +24,7 @@ public class Game {
         mPlayer = new LinkedList<>();
         mDequeOfCards = new ArrayDeque<>();
         gameLogic = new GameLogic();
+        mPlayedCards=new LinkedList<>();
     }
 
     //getters:
@@ -78,15 +76,15 @@ public class Game {
         }
     }
 
-    public void shuffleCards(String[] mRawCards) {
+    public void shuffleCards(String[] rawCards) {
         int i;
         String aux;
         Random random = new Random();
-        for (int j = mRawCards.length - 1; j > 0; j--) {
+        for (int j = rawCards.length - 1; j > 0; j--) {
             i = random.nextInt(j + 1);
-            aux = mRawCards[i];
-            mRawCards[i] = mRawCards[j];
-            mRawCards[j] = aux;
+            aux = rawCards[i];
+            rawCards[i] = rawCards[j];
+            rawCards[j] = aux;
         }
     }
 
@@ -95,6 +93,7 @@ public class Game {
             mJugador.setMyCards(mDequeOfCards.poll());
         }
         mPlayedCard = mDequeOfCards.poll();
+        mPlayedCards.add(mPlayedCard);
         switch (mNumberOfRivals) {
             case 1:
                 for (int i = 0; i < 7; i++) {
@@ -128,6 +127,7 @@ public class Game {
         int playerTurn = playerTurn();
         if (playerTurn >= 0) {
             mPlayedCard = mJugador.getMyCards().get(playerTurn);
+            mPlayedCards.add(mPlayedCard);
             mJugador.getMyCards().remove(playerTurn);
         } else {
             mJugador.setMyCards(mDequeOfCards.poll());
@@ -140,6 +140,7 @@ public class Game {
                 }
                 if (!aux.equals("sin carta")) {
                     mPlayedCard = aux;
+                    mPlayedCards.add(mPlayedCard);
                     System.out.printf("%nAI1 jugo: %s%n", mPlayedCard);
                 } else {
                     mFirstRival.add(mDequeOfCards.poll());
@@ -155,6 +156,7 @@ public class Game {
 
                 if (!aux.equals("sin carta")) {
                     mPlayedCard = aux;
+                    mPlayedCards.add(mPlayedCard);
                     System.out.printf("%nAI1 jugo: %s%n", mPlayedCard);
                 } else {
                     mFirstRival.add(mDequeOfCards.poll());
@@ -167,6 +169,7 @@ public class Game {
                 }
                 if (!aux.equals("sin carta")) {
                     mPlayedCard = aux;
+                    mPlayedCards.add(mPlayedCard);
                     System.out.printf("%nAI2 jugo: %s%n", mPlayedCard);
                 } else {
                     mSecondRival.add(mDequeOfCards.poll());
@@ -182,6 +185,7 @@ public class Game {
 
                 if (!aux.equals("sin carta")) {
                     mPlayedCard = aux;
+                    mPlayedCards.add(mPlayedCard);
                     System.out.printf("%nAI1 jugo: %s%n", mPlayedCard);
                 } else {
                     mFirstRival.add(mDequeOfCards.poll());
@@ -194,6 +198,7 @@ public class Game {
                 }
                 if (!aux.equals("sin carta")) {
                     mPlayedCard = aux;
+                    mPlayedCards.add(mPlayedCard);
                     System.out.printf("%nAI2 jugo: %s%n", mPlayedCard);
                 } else {
                     mSecondRival.add(mDequeOfCards.poll());
@@ -206,6 +211,7 @@ public class Game {
                 }
                 if (!aux.equals("sin carta")) {
                     mPlayedCard = aux;
+                    mPlayedCards.add(mPlayedCard);
                     System.out.printf("%nAI3 jugo: %s%n", mPlayedCard);
                 } else {
                     mThirdRival.add(mDequeOfCards.poll());
@@ -214,6 +220,19 @@ public class Game {
                 }
                 break;
         }
+        if(mPlayedCards.size()>10){
+            refillTheCards(mPlayedCards);
+        }
+    }
+
+    private void refillTheCards(LinkedList<String> playedCards) {
+        Iterator<String> iterator;
+        Collections.shuffle(playedCards);
+        iterator=playedCards.listIterator();
+        while(iterator.hasNext()){
+            mDequeOfCards.add(iterator.next());
+        }
+        mPlayedCards.clear();
     }
 
     public void howManyPlayers() {
@@ -234,11 +253,11 @@ public class Game {
         do {
             System.out.println("Introduzca el numero de la posicion de su carta o 0 si no tiene carta o desea arrastrar");
             i = scanner.nextInt() - 1;
-            sameLetter=false;
-            sameNumber=false;
-            if(i!=-1){
+            sameLetter = false;
+            sameNumber = false;
+            if (i != -1) {
                 sameNumber = mJugador.getMyCards().get(i).charAt(0) != mPlayedCard.charAt(0);
-                sameLetter=mJugador.getMyCards().get(i).charAt(1) != mPlayedCard.charAt(1);
+                sameLetter = mJugador.getMyCards().get(i).charAt(1) != mPlayedCard.charAt(1);
             }
         } while (i >= mJugador.getMyCards().size() || (sameNumber && sameLetter));
         return i;
