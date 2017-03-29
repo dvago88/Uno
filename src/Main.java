@@ -8,6 +8,7 @@ public class Main {
         Game game = new Game(jugador);
         Prompter prompter = new Prompter(jugador, game);
         Iterator<String> iterator;
+        prompter.gamePresentation();
 
         game.howManyPlayers();
         game.fillCards();

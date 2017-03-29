@@ -93,9 +93,8 @@ public class Game {
             rawCards[j] = aux;
         }
     }
-//TODO restaurar el 7 a la reparticion
     public void dealTheCards() {
-        for (int j = 0; j < 3; j++) {
+        for (int j = 0; j < 7; j++) {
             mJugador.setMyCards(mDequeOfCards.poll());
         }
         mPlayedCard = mDequeOfCards.poll();
