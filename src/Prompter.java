@@ -10,6 +10,9 @@ public class Prompter {
         mJugador = jugador;
         mGame = game;
     }
+    public void gamePresentation(){
+        System.out.println();
+    }
 
     public void showPlayerCards() {
         Iterator<String> iterator;

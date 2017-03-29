@@ -1,4 +1,10 @@
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Random;
+import java.util.Scanner;
 
 public class Game {
     private String[] mRawCards = new String[72];
@@ -87,9 +93,9 @@ public class Game {
             rawCards[j] = aux;
         }
     }
-
+//TODO restaurar el 7 a la reparticion
     public void dealTheCards() {
-        for (int j = 0; j < 7; j++) {
+        for (int j = 0; j < 3; j++) {
             mJugador.setMyCards(mDequeOfCards.poll());
         }
         mPlayedCard = mDequeOfCards.poll();
@@ -248,14 +254,25 @@ public class Game {
     public int playerTurn() {
         Scanner scanner = new Scanner(System.in);
         int i;
+        String aux;
         boolean sameNumber;
         boolean sameLetter;
         do {
             System.out.println("Introduzca el numero de la posicion de su carta o 0 si no tiene carta o desea arrastrar");
-            i = scanner.nextInt() - 1;
+            aux=scanner.nextLine().trim();
+            i=Character.getNumericValue(aux.charAt(0))-1;//esto es necesario hacerlo para leer el UNO
             sameLetter = false;
             sameNumber = false;
-            if (i != -1) {
+            if (i != -1&&!(i >= mJugador.getMyCards().size())) {
+                //Modificacion grande:
+                if(mJugador.getMyCards().size()==2){
+                    if (aux.length()<5){
+                        System.out.println("No dijiste \"UNO\" arrastra 2 cartas, introduce cualquier numero para continuar");
+                        String garbage=scanner.next();
+                        mJugador.setMyCards(mDequeOfCards.poll());
+                        mJugador.setMyCards(mDequeOfCards.poll());
+                    }
+                }
                 sameNumber = mJugador.getMyCards().get(i).charAt(0) != mPlayedCard.charAt(0);
                 sameLetter = mJugador.getMyCards().get(i).charAt(1) != mPlayedCard.charAt(1);
             }
