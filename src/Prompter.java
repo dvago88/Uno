@@ -10,12 +10,13 @@ public class Prompter {
         mJugador = jugador;
         mGame = game;
     }
-    public void gamePresentation(){
-        Scanner scanner=new Scanner(System.in);
+
+    public void gamePresentation() {
+        Scanner scanner = new Scanner(System.in);
         System.out.printf("%nBIENVENIDO al juego de cartas UNO%n%n%n");
         System.out.printf("%nsi eres un jugador avido y no necesitas leer las reglas o instruciones presiona 0" +
                 "%nde los contrario presiona cualquier otro numero y la tecla enter.%n");
-        if(scanner.nextInt()!=0){
+        if (scanner.nextInt() != 0) {
             System.out.printf("%n%n1.El juego se inicia preguntando cuantos rivales quieres tener, se pueden tener entre 1 y 3 rivales.%n" +
                     "2.Luego de esto el juego baraja y reparte las cartas automaticamente.%n" +
                     "3.Para facilidad a la hora de tener las cartas en la pantalla se abrevio los colores:%n" +

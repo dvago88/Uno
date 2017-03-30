@@ -30,7 +30,7 @@ public class Game {
         mPlayer = new LinkedList<>();
         mDequeOfCards = new ArrayDeque<>();
         gameLogic = new GameLogic();
-        mPlayedCards=new LinkedList<>();
+        mPlayedCards = new LinkedList<>();
     }
 
     //getters:
@@ -93,6 +93,7 @@ public class Game {
             rawCards[j] = aux;
         }
     }
+
     public void dealTheCards() {
         for (int j = 0; j < 7; j++) {
             mJugador.setMyCards(mDequeOfCards.poll());
@@ -137,7 +138,7 @@ public class Game {
         } else {
             mJugador.setMyCards(mDequeOfCards.poll());
         }
-        if(mJugador.getMyCards().size()>0) {
+        if (mJugador.getMyCards().size() > 0) {
             switch (mNumberOfRivals) {
                 case 1:
                     aux = gameLogic.whatToPlay(mPlayedCard, mFirstRival);
@@ -259,8 +260,8 @@ public class Game {
             if (mPlayedCards.size() > 10) {
                 refillTheCards(mPlayedCards);
             }
-        }else{
-            mGameOver=true;
+        } else {
+            mGameOver = true;
             System.out.println("WOOOOOOOOOOOW increible!! le has ganado a la maquina");
             System.out.println("NOTA: has ganado porque eres un genio no porque el sistema merezca menos de 5");
         }
@@ -269,8 +270,8 @@ public class Game {
     private void refillTheCards(LinkedList<String> playedCards) {
         Iterator<String> iterator;
         Collections.shuffle(playedCards);
-        iterator=playedCards.listIterator();
-        while(iterator.hasNext()){
+        iterator = playedCards.listIterator();
+        while (iterator.hasNext()) {
             mDequeOfCards.add(iterator.next());
         }
         mPlayedCards.clear();
@@ -294,15 +295,15 @@ public class Game {
         boolean sameLetter;
         do {
             System.out.println("Introduzca el numero de la posicion de su carta o 0 si no tiene carta o desea arrastrar");
-            aux=scanner.nextLine().trim();
-            i=Character.getNumericValue(aux.charAt(0))-1;//esto es necesario hacerlo para leer el UNO
+            aux = scanner.nextLine().trim();
+            i = Character.getNumericValue(aux.charAt(0)) - 1;//esto es necesario hacerlo para leer el UNO
             sameLetter = false;
             sameNumber = false;
-            if (i != -1&&!(i >= mJugador.getMyCards().size())) {
-                if(mJugador.getMyCards().size()==2){
-                    if (aux.length()<5){
+            if (i != -1 && !(i >= mJugador.getMyCards().size())) {
+                if (mJugador.getMyCards().size() == 2) {
+                    if (aux.length() < 5) {
                         System.out.println("No dijiste \"UNO\" arrastra 2 cartas, introduce cualquier numero para continuar");
-                        String garbage=scanner.next();
+                        String garbage = scanner.next();
                         mJugador.setMyCards(mDequeOfCards.poll());
                         mJugador.setMyCards(mDequeOfCards.poll());
                     }
