@@ -94,7 +94,7 @@ public class Game {
         }
     }
     public void dealTheCards() {
-        for (int j = 0; j < 1; j++) {
+        for (int j = 0; j < 7; j++) {
             mJugador.setMyCards(mDequeOfCards.poll());
         }
         mPlayedCard = mDequeOfCards.poll();
