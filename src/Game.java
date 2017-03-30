@@ -296,7 +296,11 @@ public class Game {
         do {
             System.out.println("Introduzca el numero de la posicion de su carta o 0 si no tiene carta o desea arrastrar");
             aux = scanner.nextLine().trim();
-            i = Character.getNumericValue(aux.charAt(0)) - 1;//esto es necesario hacerlo para leer el UNO
+            if(aux.length()==5||aux.length()==1) {
+                i = Character.getNumericValue(aux.charAt(0)) - 1;//esto es necesario hacerlo para leer el UNO
+            }else{
+                i=(Character.getNumericValue(aux.charAt(0))*10+Character.getNumericValue(aux.charAt(1)))-1;
+            }
             sameLetter = false;
             sameNumber = false;
             if (i != -1 && !(i >= mJugador.getMyCards().size())) {
