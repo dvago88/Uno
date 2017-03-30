@@ -2,7 +2,7 @@
 
 Projecto para la universidad, recrear el juego de mesa UNO. Inicialmente solo con las cartas numéricas exceptuando el cero.
 
-Se utilizo un arreglo para meter las "cartas" iniciales y barajarlas con un metodo propio, luego estas se pasa a un queue de strings que que como implementacion tiene Arraydeque, más adelante se utiliza una lista enlazada y se utiliza Collection.shuffle para barajarlas. Esta diferencia en la forma de hacerlo solo se debe a querer practicar diferentes formas de lograr barajar las cartas.
+Se utilizo un arreglo para meter las "cartas" iniciales y barajarlas con un metodo propio, luego estas se pasa a un queue de strings que como implementacion tiene Arraydeque, más adelante se utiliza una lista enlazada y se utiliza Collection.shuffle para barajarlas. Esta diferencia en la forma de hacerlo solo se debe a querer practicar diferentes formas de lograr barajar las cartas.
 
 A todos los jugadores se les almacenan las cartas en una lista enlazada.
 
