@@ -94,7 +94,7 @@ public class Game {
         }
     }
     public void dealTheCards() {
-        for (int j = 0; j < 7; j++) {
+        for (int j = 0; j < 1; j++) {
             mJugador.setMyCards(mDequeOfCards.poll());
         }
         mPlayedCard = mDequeOfCards.poll();
@@ -137,126 +137,132 @@ public class Game {
         } else {
             mJugador.setMyCards(mDequeOfCards.poll());
         }
-        switch (mNumberOfRivals) {
-            case 1:
-                aux = gameLogic.whatToPlay(mPlayedCard, mFirstRival);
-                if (!aux.equals("sin carta")) {
-                    mPlayedCard = aux;
-                    mPlayedCards.add(mPlayedCard);
-                    if(mFirstRival.size()==1){
-                        System.out.println("AI1 grito \"UNO\"");
+        if(mJugador.getMyCards().size()>0) {
+            switch (mNumberOfRivals) {
+                case 1:
+                    aux = gameLogic.whatToPlay(mPlayedCard, mFirstRival);
+                    if (!aux.equals("sin carta")) {
+                        mPlayedCard = aux;
+                        mPlayedCards.add(mPlayedCard);
+                        if (mFirstRival.size() == 1) {
+                            System.out.println("AI1 grito \"UNO\"");
+                        }
+                        System.out.printf("%nAI1 jugo: %s%n", mPlayedCard);
+                        if (mFirstRival.isEmpty()) {
+                            mGameOver = true;
+                            System.out.println("AI1 ha ganado");
+                            break;
+                        }
+                    } else {
+                        mFirstRival.add(mDequeOfCards.poll());
+                        System.out.println("");
+                        System.out.println("AI1 arrastro carta");
                     }
-                    System.out.printf("%nAI1 jugo: %s%n", mPlayedCard);
-                    if (mFirstRival.isEmpty()) {
-                        mGameOver = true;
-                        System.out.println("AI1 ha ganado");
-                        break;
-                    }
-                } else {
-                    mFirstRival.add(mDequeOfCards.poll());
-                    System.out.println("");
-                    System.out.println("AI1 arrastro carta");
-                }
-                break;
-            case 2:
-                aux = gameLogic.whatToPlay(mPlayedCard, mFirstRival);
+                    break;
+                case 2:
+                    aux = gameLogic.whatToPlay(mPlayedCard, mFirstRival);
 
-                if (!aux.equals("sin carta")) {
-                    mPlayedCard = aux;
-                    mPlayedCards.add(mPlayedCard);
-                    if(mFirstRival.size()==1){
-                        System.out.println("AI1 grito \"UNO\"");
+                    if (!aux.equals("sin carta")) {
+                        mPlayedCard = aux;
+                        mPlayedCards.add(mPlayedCard);
+                        if (mFirstRival.size() == 1) {
+                            System.out.println("AI1 grito \"UNO\"");
+                        }
+                        System.out.printf("%nAI1 jugo: %s%n", mPlayedCard);
+                        if (mFirstRival.isEmpty()) {
+                            mGameOver = true;
+                            System.out.println("AI1 ha ganado");
+                            break;
+                        }
+                    } else {
+                        mFirstRival.add(mDequeOfCards.poll());
+                        System.out.println("");
+                        System.out.println("AI1 arrastro carta");
                     }
-                    System.out.printf("%nAI1 jugo: %s%n", mPlayedCard);
-                    if (mFirstRival.isEmpty()) {
-                        mGameOver = true;
-                        System.out.println("AI1 ha ganado");
-                        break;
+                    aux = gameLogic.whatToPlay(mPlayedCard, mSecondRival);
+                    if (!aux.equals("sin carta")) {
+                        mPlayedCard = aux;
+                        mPlayedCards.add(mPlayedCard);
+                        if (mSecondRival.size() == 1) {
+                            System.out.println("AI2 grito \"UNO\"");
+                        }
+                        System.out.printf("%nAI2 jugo: %s%n", mPlayedCard);
+                        if (mSecondRival.isEmpty()) {
+                            mGameOver = true;
+                            System.out.println("AI2 ha ganado");
+                            break;
+                        }
+                    } else {
+                        mSecondRival.add(mDequeOfCards.poll());
+                        System.out.println("");
+                        System.out.println("AI2 arrastro carta");
                     }
-                } else {
-                    mFirstRival.add(mDequeOfCards.poll());
-                    System.out.println("");
-                    System.out.println("AI1 arrastro carta");
-                }
-                aux = gameLogic.whatToPlay(mPlayedCard, mSecondRival);
-                if (!aux.equals("sin carta")) {
-                    mPlayedCard = aux;
-                    mPlayedCards.add(mPlayedCard);
-                    if(mSecondRival.size()==1){
-                        System.out.println("AI2 grito \"UNO\"");
-                    }
-                    System.out.printf("%nAI2 jugo: %s%n", mPlayedCard);
-                    if (mSecondRival.isEmpty()) {
-                        mGameOver = true;
-                        System.out.println("AI2 ha ganado");
-                        break;
-                    }
-                } else {
-                    mSecondRival.add(mDequeOfCards.poll());
-                    System.out.println("");
-                    System.out.println("AI2 arrastro carta");
-                }
-                break;
-            case 3:
-                aux = gameLogic.whatToPlay(mPlayedCard, mFirstRival);
+                    break;
+                case 3:
+                    aux = gameLogic.whatToPlay(mPlayedCard, mFirstRival);
 
-                if (!aux.equals("sin carta")) {
-                    mPlayedCard = aux;
-                    mPlayedCards.add(mPlayedCard);
-                    if(mFirstRival.size()==1){
-                        System.out.println("AI1 grito \"UNO\"");
+                    if (!aux.equals("sin carta")) {
+                        mPlayedCard = aux;
+                        mPlayedCards.add(mPlayedCard);
+                        if (mFirstRival.size() == 1) {
+                            System.out.println("AI1 grito \"UNO\"");
+                        }
+                        System.out.printf("%nAI1 jugo: %s%n", mPlayedCard);
+                        if (mFirstRival.isEmpty()) {
+                            mGameOver = true;
+                            System.out.println("AI1 ha ganado");
+                            break;
+                        }
+                    } else {
+                        mFirstRival.add(mDequeOfCards.poll());
+                        System.out.println("");
+                        System.out.println("AI1 arrastro carta");
                     }
-                    System.out.printf("%nAI1 jugo: %s%n", mPlayedCard);
-                    if (mFirstRival.isEmpty()) {
-                        mGameOver = true;
-                        System.out.println("AI1 ha ganado");
-                        break;
+                    aux = gameLogic.whatToPlay(mPlayedCard, mSecondRival);
+                    if (!aux.equals("sin carta")) {
+                        mPlayedCard = aux;
+                        mPlayedCards.add(mPlayedCard);
+                        if (mSecondRival.size() == 1) {
+                            System.out.println("AI2 grito \"UNO\"");
+                        }
+                        System.out.printf("%nAI2 jugo: %s%n", mPlayedCard);
+                        if (mSecondRival.isEmpty()) {
+                            mGameOver = true;
+                            System.out.println("AI2 ha ganado");
+                            break;
+                        }
+                    } else {
+                        mSecondRival.add(mDequeOfCards.poll());
+                        System.out.println("");
+                        System.out.println("AI2 arrastro carta");
                     }
-                } else {
-                    mFirstRival.add(mDequeOfCards.poll());
-                    System.out.println("");
-                    System.out.println("AI1 arrastro carta");
-                }
-                aux = gameLogic.whatToPlay(mPlayedCard, mSecondRival);
-                if (!aux.equals("sin carta")) {
-                    mPlayedCard = aux;
-                    mPlayedCards.add(mPlayedCard);
-                    if(mSecondRival.size()==1){
-                        System.out.println("AI2 grito \"UNO\"");
+                    aux = gameLogic.whatToPlay(mPlayedCard, mThirdRival);
+                    if (!aux.equals("sin carta")) {
+                        mPlayedCard = aux;
+                        mPlayedCards.add(mPlayedCard);
+                        if (mThirdRival.size() == 1) {
+                            System.out.println("AI3 grito \"UNO\"");
+                        }
+                        System.out.printf("%nAI3 jugo: %s%n", mPlayedCard);
+                        if (mThirdRival.isEmpty()) {
+                            mGameOver = true;
+                            System.out.println("AI3 ha ganado");
+                            break;
+                        }
+                    } else {
+                        mThirdRival.add(mDequeOfCards.poll());
+                        System.out.println("");
+                        System.out.println("AI3 arrastro carta");
                     }
-                    System.out.printf("%nAI2 jugo: %s%n", mPlayedCard);
-                    if (mSecondRival.isEmpty()) {
-                        mGameOver = true;
-                        System.out.println("AI2 ha ganado");
-                        break;
-                    }
-                } else {
-                    mSecondRival.add(mDequeOfCards.poll());
-                    System.out.println("");
-                    System.out.println("AI2 arrastro carta");
-                }
-                aux = gameLogic.whatToPlay(mPlayedCard, mThirdRival);
-                if (!aux.equals("sin carta")) {
-                    mPlayedCard = aux;
-                    mPlayedCards.add(mPlayedCard);
-                    if(mThirdRival.size()==1){
-                        System.out.println("AI3 grito \"UNO\"");
-                    }
-                    System.out.printf("%nAI3 jugo: %s%n", mPlayedCard);
-                    if (mThirdRival.isEmpty()) {
-                        mGameOver = true;
-                        System.out.println("AI3 ha ganado" );
-                        break;
-                    }
-                } else {
-                    mThirdRival.add(mDequeOfCards.poll());
-                    System.out.println("");
-                    System.out.println("AI3 arrastro carta");
-                }
-                break;
-        }
-        if(mPlayedCards.size()>10){
-            refillTheCards(mPlayedCards);
+                    break;
+            }
+            if (mPlayedCards.size() > 10) {
+                refillTheCards(mPlayedCards);
+            }
+        }else{
+            mGameOver=true;
+            System.out.println("WOOOOOOOOOOOW increible!! le has ganado a la maquina");
+            System.out.println("NOTA: has ganado porque eres un genio no porque el sistema merezca menos de 5");
         }
     }
 
@@ -293,7 +299,6 @@ public class Game {
             sameLetter = false;
             sameNumber = false;
             if (i != -1&&!(i >= mJugador.getMyCards().size())) {
-                //Modificacion grande:
                 if(mJugador.getMyCards().size()==2){
                     if (aux.length()<5){
                         System.out.println("No dijiste \"UNO\" arrastra 2 cartas, introduce cualquier numero para continuar");
