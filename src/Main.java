@@ -9,7 +9,7 @@ public class Main {
         game.howManyPlayers();
         game.fillCards();
         game.dealTheCards();
-
+        System.out.println("ola");
 
         while (!game.isGameOver()) {
             prompter.showPlayedCard();
