@@ -4,11 +4,11 @@ public class Main {
         Jugador jugador = new Jugador();
         Game game = new Game(jugador);
         Prompter prompter = new Prompter(jugador, game);
-        prompter.gamePresentation();
+//        prompter.gamePresentation();
 
         game.howManyPlayers();
         game.fillCards();
-        game.dealTheCards();
+       /* game.dealTheCards();
         System.out.println("ola");
 
         while (!game.isGameOver()) {
@@ -16,7 +16,7 @@ public class Main {
             prompter.showPlayerCards();
             game.play();
 
-        }
+        }*/
 
     }
 

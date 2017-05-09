@@ -1,19 +1,28 @@
-import java.util.ArrayDeque;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
+
+/*
+    * R=rojo
+    * V=verde
+    * A=azul
+    * M=amarillo
+    * CC=cambio de color
+    * MU= cambio de color y arrastra 4
+    * S=skip
+    * D= arrastra 2
+    * E=Reversa
+ */
 
 public class Game {
     private String[] mRawCards = new String[72];
-    private Queue<String> mDequeOfCards;
+    //TODO: cambiar a lista enlazada esta cola para poder barajar
+    private LinkedList<String> mDequeOfCards;
+    //TODO: Cambiar a treeset las listas enlazadas de los jugadores
+    //TODO: Meter los treeset de los jugadores en un arreglo o en una lista enlazada
     private LinkedList<String> mFirstRival;
     private LinkedList<String> mSecondRival;
     private LinkedList<String> mThirdRival;
     private LinkedList<String> mPlayer;
-    private String[] mColores = {"R", "M", "V", "A"};
+    private String[] mColores = {"R", "M", "V", "A", "Ra", "Ma", "Va", "Aa"};
     private Jugador mJugador;
     private int mNumberOfRivals;
     private GameLogic gameLogic;
@@ -28,31 +37,13 @@ public class Game {
         mSecondRival = new LinkedList<>();
         mThirdRival = new LinkedList<>();
         mPlayer = new LinkedList<>();
-        mDequeOfCards = new ArrayDeque<>();
+        mDequeOfCards = new LinkedList<>();
         gameLogic = new GameLogic();
         mPlayedCards = new LinkedList<>();
     }
 
     //getters:
-    public LinkedList<String> getFirstRival() {
-        return mFirstRival;
-    }
 
-    public LinkedList<String> getSecondRival() {
-        return mSecondRival;
-    }
-
-    public LinkedList<String> getThirdRival() {
-        return mThirdRival;
-    }
-
-    public String[] getRawCards() {
-        return mRawCards;
-    }
-
-    public Queue<String> getDequeOfCards() {
-        return mDequeOfCards;
-    }
 
     public String getPlayedCard() {
         return mPlayedCard;
@@ -65,21 +56,29 @@ public class Game {
     public void fillCards() {
         int j = 0;
         int k = 1;
+        int n = 1;
+        int m = 1;
         for (int i = 0; i < 72; i++) {
-            mRawCards[i] = k + mColores[j];
+            mDequeOfCards.add(k + mColores[j]);
             k++;
             j++;
-            if (j == 4) {
+            if (j == 8) {
                 j = 0;
             }
             if (k == 10) {
+                mDequeOfCards.add("S" + mColores[j]);
+                mDequeOfCards.add("D" + mColores[j]);
+                mDequeOfCards.add("E" + mColores[j]);
+                if (n > 0) {
+                    mDequeOfCards.add("CC" + m);
+                    mDequeOfCards.add("MU" + m);
+                    m++;
+                }
+                n *= -1;
                 k = 1;
             }
         }
-        shuffleCards(mRawCards);
-        for (String i : mRawCards) {
-            mDequeOfCards.add(i);
-        }
+        Collections.shuffle(mDequeOfCards);
     }
 
     public void shuffleCards(String[] rawCards) {
@@ -296,10 +295,10 @@ public class Game {
         do {
             System.out.println("Introduzca el numero de la posicion de su carta o 0 si no tiene carta o desea arrastrar");
             aux = scanner.nextLine().trim();
-            if(aux.length()==5||aux.length()==1) {
+            if (aux.length() == 5 || aux.length() == 1) {
                 i = Character.getNumericValue(aux.charAt(0)) - 1;//esto es necesario hacerlo para leer el UNO
-            }else{
-                i=(Character.getNumericValue(aux.charAt(0))*10+Character.getNumericValue(aux.charAt(1)))-1;
+            } else {
+                i = (Character.getNumericValue(aux.charAt(0)) * 10 + Character.getNumericValue(aux.charAt(1))) - 1;
             }
             sameLetter = false;
             sameNumber = false;
