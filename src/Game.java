@@ -1,4 +1,9 @@
-import java.util.*;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Scanner;
+import java.util.TreeSet;
+import java.util.Vector;
 
 /*
     * R=rojo
@@ -13,9 +18,7 @@ import java.util.*;
  */
 
 public class Game {
-    private String[] mRawCards = new String[72];
     private LinkedList<String> mDequeOfCards;
-    //TODO: Meter los treeset de los jugadores en un arreglo o en una lista enlazada
     private TreeSet<String> mFirstRival;
     private TreeSet<String> mSecondRival;
     private TreeSet<String> mThirdRival;
@@ -27,6 +30,7 @@ public class Game {
     private String mPlayedCard;
     private boolean mGameOver = false;
     private LinkedList<String> mPlayedCards;
+    private Vector<TreeSet> mAllPlayers;
 
     //constructor:
     public Game(Jugador jugador) {
@@ -38,6 +42,7 @@ public class Game {
         mDequeOfCards = new LinkedList<>();
         gameLogic = new GameLogic();
         mPlayedCards = new LinkedList<>();
+        mAllPlayers = new Vector<>();
     }
 
     //getters:
@@ -79,17 +84,6 @@ public class Game {
         Collections.shuffle(mDequeOfCards);
     }
 
-    public void shuffleCards(String[] rawCards) {
-        int i;
-        String aux;
-        Random random = new Random();
-        for (int j = rawCards.length - 1; j > 0; j--) {
-            i = random.nextInt(j + 1);
-            aux = rawCards[i];
-            rawCards[i] = rawCards[j];
-            rawCards[j] = aux;
-        }
-    }
 
     public void dealTheCards() {
         for (int j = 0; j < 7; j++) {
@@ -97,31 +91,11 @@ public class Game {
         }
         mPlayedCard = mDequeOfCards.poll();
         mPlayedCards.add(mPlayedCard);
-        switch (mNumberOfRivals) {
-            case 1:
-                for (int i = 0; i < 7; i++) {
-                    mFirstRival.add(mDequeOfCards.poll());
-                }
-                break;
-            case 2:
-                for (int i = 0; i < 7; i++) {
-                    mFirstRival.add(mDequeOfCards.poll());
-                }
-                for (int i = 0; i < 7; i++) {
-                    mSecondRival.add(mDequeOfCards.poll());
-                }
-                break;
-            case 3:
-                for (int i = 0; i < 7; i++) {
-                    mFirstRival.add(mDequeOfCards.poll());
-                }
-                for (int i = 0; i < 7; i++) {
-                    mSecondRival.add(mDequeOfCards.poll());
-                }
-                for (int i = 0; i < 7; i++) {
-                    mThirdRival.add(mDequeOfCards.poll());
-                }
-                break;
+
+        for (TreeSet<String> treeSet : mAllPlayers) {
+            for (int i = 0; i < 7; i++) {
+                treeSet.add(mDequeOfCards.poll());
+            }
         }
     }
 
@@ -136,123 +110,27 @@ public class Game {
             mJugador.setMyCards(mDequeOfCards.poll());
         }
         if (mJugador.getMyCards().size() > 0) {
-            switch (mNumberOfRivals) {
-                case 1:
-                    aux = gameLogic.whatToPlay(mPlayedCard, mFirstRival);
-                    if (!aux.equals("sin carta")) {
-                        mPlayedCard = aux;
-                        mPlayedCards.add(mPlayedCard);
-                        if (mFirstRival.size() == 1) {
-                            System.out.println("AI1 grito \"UNO\"");
-                        }
-                        System.out.printf("%nAI1 jugo: %s%n", mPlayedCard);
-                        if (mFirstRival.isEmpty()) {
-                            mGameOver = true;
-                            System.out.println("AI1 ha ganado");
-                            break;
-                        }
-                    } else {
-                        mFirstRival.add(mDequeOfCards.poll());
-                        System.out.println("");
-                        System.out.println("AI1 arrastro carta");
+            int n = 1;
+            for (TreeSet<String> treeSet : mAllPlayers) {
+                aux = gameLogic.whatToPlay(mPlayedCard, treeSet);
+                if (!aux.equals("sin carta")) {
+                    mPlayedCard = aux;
+                    mPlayedCards.add(mPlayedCard);
+                    if (treeSet.size() == 1) {
+                        System.out.println("AI" + n + " grito \"UNO\"");
                     }
-                    break;
-                case 2:
-                    aux = gameLogic.whatToPlay(mPlayedCard, mFirstRival);
-
-                    if (!aux.equals("sin carta")) {
-                        mPlayedCard = aux;
-                        mPlayedCards.add(mPlayedCard);
-                        if (mFirstRival.size() == 1) {
-                            System.out.println("AI1 grito \"UNO\"");
-                        }
-                        System.out.printf("%nAI1 jugo: %s%n", mPlayedCard);
-                        if (mFirstRival.isEmpty()) {
-                            mGameOver = true;
-                            System.out.println("AI1 ha ganado");
-                            break;
-                        }
-                    } else {
-                        mFirstRival.add(mDequeOfCards.poll());
-                        System.out.println("");
-                        System.out.println("AI1 arrastro carta");
+                    System.out.printf("%nAI%d jugo: %s%n", n, mPlayedCard);
+                    if (treeSet.isEmpty()) {
+                        mGameOver = true;
+                        System.out.println("AI" + n + " ha ganado");
+                        break;
                     }
-                    aux = gameLogic.whatToPlay(mPlayedCard, mSecondRival);
-                    if (!aux.equals("sin carta")) {
-                        mPlayedCard = aux;
-                        mPlayedCards.add(mPlayedCard);
-                        if (mSecondRival.size() == 1) {
-                            System.out.println("AI2 grito \"UNO\"");
-                        }
-                        System.out.printf("%nAI2 jugo: %s%n", mPlayedCard);
-                        if (mSecondRival.isEmpty()) {
-                            mGameOver = true;
-                            System.out.println("AI2 ha ganado");
-                            break;
-                        }
-                    } else {
-                        mSecondRival.add(mDequeOfCards.poll());
-                        System.out.println("");
-                        System.out.println("AI2 arrastro carta");
-                    }
-                    break;
-                case 3:
-                    aux = gameLogic.whatToPlay(mPlayedCard, mFirstRival);
-
-                    if (!aux.equals("sin carta")) {
-                        mPlayedCard = aux;
-                        mPlayedCards.add(mPlayedCard);
-                        if (mFirstRival.size() == 1) {
-                            System.out.println("AI1 grito \"UNO\"");
-                        }
-                        System.out.printf("%nAI1 jugo: %s%n", mPlayedCard);
-                        if (mFirstRival.isEmpty()) {
-                            mGameOver = true;
-                            System.out.println("AI1 ha ganado");
-                            break;
-                        }
-                    } else {
-                        mFirstRival.add(mDequeOfCards.poll());
-                        System.out.println("");
-                        System.out.println("AI1 arrastro carta");
-                    }
-                    aux = gameLogic.whatToPlay(mPlayedCard, mSecondRival);
-                    if (!aux.equals("sin carta")) {
-                        mPlayedCard = aux;
-                        mPlayedCards.add(mPlayedCard);
-                        if (mSecondRival.size() == 1) {
-                            System.out.println("AI2 grito \"UNO\"");
-                        }
-                        System.out.printf("%nAI2 jugo: %s%n", mPlayedCard);
-                        if (mSecondRival.isEmpty()) {
-                            mGameOver = true;
-                            System.out.println("AI2 ha ganado");
-                            break;
-                        }
-                    } else {
-                        mSecondRival.add(mDequeOfCards.poll());
-                        System.out.println("");
-                        System.out.println("AI2 arrastro carta");
-                    }
-                    aux = gameLogic.whatToPlay(mPlayedCard, mThirdRival);
-                    if (!aux.equals("sin carta")) {
-                        mPlayedCard = aux;
-                        mPlayedCards.add(mPlayedCard);
-                        if (mThirdRival.size() == 1) {
-                            System.out.println("AI3 grito \"UNO\"");
-                        }
-                        System.out.printf("%nAI3 jugo: %s%n", mPlayedCard);
-                        if (mThirdRival.isEmpty()) {
-                            mGameOver = true;
-                            System.out.println("AI3 ha ganado");
-                            break;
-                        }
-                    } else {
-                        mThirdRival.add(mDequeOfCards.poll());
-                        System.out.println("");
-                        System.out.println("AI3 arrastro carta");
-                    }
-                    break;
+                } else {
+                    treeSet.add(mDequeOfCards.poll());
+                    System.out.println("");
+                    System.out.println("AI" + n + " arrastro carta");
+                }
+                n++;
             }
             if (mPlayedCards.size() > 10) {
                 refillTheCards(mPlayedCards);
@@ -282,6 +160,16 @@ public class Game {
             jugadores = scanner.nextInt();
         } while (jugadores < 1 || jugadores > 3);
         mNumberOfRivals = jugadores;
+        if (jugadores == 1) {
+            mAllPlayers.add(mFirstRival);
+        } else if (jugadores == 2) {
+            mAllPlayers.add(mFirstRival);
+            mAllPlayers.add(mSecondRival);
+        } else if (jugadores == 3) {
+            mAllPlayers.add(mFirstRival);
+            mAllPlayers.add(mSecondRival);
+            mAllPlayers.add(mThirdRival);
+        }
     }
 
     public int playerTurn() {
@@ -315,6 +203,4 @@ public class Game {
         } while (i >= mJugador.getMyCards().size() || (sameNumber && sameLetter));
         return i;
     }
-
-
 }

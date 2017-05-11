@@ -4,7 +4,7 @@ import java.util.TreeSet;
 public class GameLogic {
     String mPlayedCard;
     TreeSet<String> mCards;
-
+//TODO: la logica del juego ya no funciona con las cartas nuevas, corregir eso antes de testear
     public String whatToPlay(String card, TreeSet<String> cards) {
         mPlayedCard = card;
         mCards = cards;
