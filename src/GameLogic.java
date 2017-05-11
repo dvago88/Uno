@@ -1,17 +1,17 @@
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.TreeSet;
 
 public class GameLogic {
     String mPlayedCard;
-    LinkedList<String> mCards;
+    TreeSet<String> mCards;
 
-    public String whatToPlay(String card, LinkedList<String> cards) {
+    public String whatToPlay(String card, TreeSet<String> cards) {
         mPlayedCard = card;
         mCards = cards;
         String whatToPlay;
         char color = mPlayedCard.charAt(1);
         Iterator<String> iterator;
-        iterator = mCards.listIterator();
+        iterator = mCards.iterator();
 
         while (iterator.hasNext()) {
             char aux;
@@ -23,7 +23,7 @@ public class GameLogic {
             }
         }
         color = mPlayedCard.charAt(0);
-        iterator = mCards.listIterator();
+        iterator = mCards.iterator();
         while (iterator.hasNext()) {
             char aux;
             whatToPlay = iterator.next();

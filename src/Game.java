@@ -14,14 +14,12 @@ import java.util.*;
 
 public class Game {
     private String[] mRawCards = new String[72];
-    //TODO: cambiar a lista enlazada esta cola para poder barajar
     private LinkedList<String> mDequeOfCards;
-    //TODO: Cambiar a treeset las listas enlazadas de los jugadores
     //TODO: Meter los treeset de los jugadores en un arreglo o en una lista enlazada
-    private LinkedList<String> mFirstRival;
-    private LinkedList<String> mSecondRival;
-    private LinkedList<String> mThirdRival;
-    private LinkedList<String> mPlayer;
+    private TreeSet<String> mFirstRival;
+    private TreeSet<String> mSecondRival;
+    private TreeSet<String> mThirdRival;
+    private TreeSet<String> mPlayer;
     private String[] mColores = {"R", "M", "V", "A", "Ra", "Ma", "Va", "Aa"};
     private Jugador mJugador;
     private int mNumberOfRivals;
@@ -33,10 +31,10 @@ public class Game {
     //constructor:
     public Game(Jugador jugador) {
         mJugador = jugador;
-        mFirstRival = new LinkedList<>();
-        mSecondRival = new LinkedList<>();
-        mThirdRival = new LinkedList<>();
-        mPlayer = new LinkedList<>();
+        mFirstRival = new TreeSet<>();
+        mSecondRival = new TreeSet<>();
+        mThirdRival = new TreeSet<>();
+        mPlayer = new TreeSet<>();
         mDequeOfCards = new LinkedList<>();
         gameLogic = new GameLogic();
         mPlayedCards = new LinkedList<>();
