@@ -1,9 +1,4 @@
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Scanner;
-import java.util.TreeSet;
-import java.util.Vector;
+import java.util.*;
 
 /*
     * R=rojo
@@ -11,7 +6,7 @@ import java.util.Vector;
     * A=azul
     * M=amarillo
     * CC=cambio de color
-    * MU= cambio de color y arrastra 4
+    * BB= cambio de color y arrastra 4
     * S=skip
     * D= arrastra 2
     * E=Reversa
@@ -23,7 +18,7 @@ public class Game {
     private TreeSet<String> mSecondRival;
     private TreeSet<String> mThirdRival;
     private TreeSet<String> mPlayer;
-    private String[] mColores = {"R", "M", "V", "A", "Ra", "Ma", "Va", "Aa"};
+    private String[] mColores = {"Rb", "Mb", "Vb", "Ab", "Ra", "Ma", "Va", "Aa"};
     private Jugador mJugador;
     private int mNumberOfRivals;
     private GameLogic gameLogic;
@@ -35,9 +30,9 @@ public class Game {
     //constructor:
     public Game(Jugador jugador) {
         mJugador = jugador;
-        mFirstRival = new TreeSet<>();
-        mSecondRival = new TreeSet<>();
-        mThirdRival = new TreeSet<>();
+        mFirstRival = new TreeSet<>(new MyComparator());
+        mSecondRival = new TreeSet<>(new MyComparator());
+        mThirdRival = new TreeSet<>(new MyComparator());
         mPlayer = new TreeSet<>();
         mDequeOfCards = new LinkedList<>();
         gameLogic = new GameLogic();
@@ -74,7 +69,7 @@ public class Game {
                 mDequeOfCards.add("E" + mColores[j]);
                 if (n > 0) {
                     mDequeOfCards.add("CC" + m);
-                    mDequeOfCards.add("MU" + m);
+                    mDequeOfCards.add("BB" + m);
                     m++;
                 }
                 n *= -1;
@@ -99,6 +94,7 @@ public class Game {
         }
     }
 
+    //TODO: como los strings de las cartas tienen 3 valores hay que modificar este metodo para que lea las cartas asi, pero solo muestre el numero y la letra.
     public void play() {
         String aux;
         int playerTurn = playerTurn();
@@ -204,3 +200,6 @@ public class Game {
         return i;
     }
 }
+
+
+
