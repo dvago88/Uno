@@ -42,7 +42,7 @@ public class Prompter {
         System.out.println("============================");
         System.out.println("SUS CARTAS:");
         while (iterator.hasNext()) {
-            System.out.print(iterator.next() + " ");
+            System.out.print(iterator.next().substring(0,2) + " ");
         }
         System.out.println("");
         System.out.println("============================");
@@ -51,7 +51,7 @@ public class Prompter {
 
     public void showPlayedCard() {
         System.out.println("");
-        System.out.println("La carta en juego es: " + mGame.getPlayedCard());
+        System.out.println("La carta en juego es: " + mGame.getPlayedCard().substring(0,2));
     }
 
 }

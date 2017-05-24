@@ -115,7 +115,7 @@ public class Game {
                     if (treeSet.size() == 1) {
                         System.out.println("AI" + n + " grito \"UNO\"");
                     }
-                    System.out.printf("%nAI%d jugo: %s%n", n, mPlayedCard);
+                    System.out.printf("%nAI%d jugo: %s%n", n, mPlayedCard.substring(0,2));
                     if (treeSet.isEmpty()) {
                         mGameOver = true;
                         System.out.println("AI" + n + " ha ganado");
