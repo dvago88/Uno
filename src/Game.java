@@ -1,4 +1,9 @@
-import java.util.*;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Scanner;
+import java.util.TreeSet;
+import java.util.Vector;
 
 /*
     * R=rojo
@@ -18,7 +23,7 @@ public class Game {
     private TreeSet<String> mSecondRival;
     private TreeSet<String> mThirdRival;
     private TreeSet<String> mPlayer;
-    private String[] mColores = {"Rb", "Mb", "Vb", "Ab", "Ra", "Ma", "Va", "Aa"};
+    private final String[] mColores = {"Rb", "Mb", "Vb", "Ab", "Ra", "Ma", "Va", "Aa"};
     private Jugador mJugador;
     private int mNumberOfRivals;
     private GameLogic gameLogic;
@@ -26,6 +31,7 @@ public class Game {
     private boolean mGameOver = false;
     private LinkedList<String> mPlayedCards;
     private Vector<TreeSet> mAllPlayers;
+    private int mReversado = 1;
 
     //constructor:
     public Game(Jugador jugador) {
@@ -94,7 +100,6 @@ public class Game {
         }
     }
 
-    //TODO: como los strings de las cartas tienen 3 valores hay que modificar este metodo para que lea las cartas asi, pero solo muestre el numero y la letra.
     public void play() {
         String aux;
         int playerTurn = playerTurn();
@@ -102,31 +107,46 @@ public class Game {
             mPlayedCard = mJugador.getMyCards().get(playerTurn);
             mPlayedCards.add(mPlayedCard);
             mJugador.getMyCards().remove(playerTurn);
+            if (mPlayedCard.charAt(0) == 'E') {
+                mReversado *= -1;
+            }
         } else {
             mJugador.setMyCards(mDequeOfCards.poll());
         }
         if (mJugador.getMyCards().size() > 0) {
             int n = 1;
-            for (TreeSet<String> treeSet : mAllPlayers) {
-                aux = gameLogic.whatToPlay(mPlayedCard, treeSet);
+            int contador = 0;
+            int reverser = 1;
+            if (mReversado < 0) {
+                contador = mNumberOfRivals - 1;
+                reverser = -1;
+                n = 3;
+            }
+            while (contador < 3 && contador >= 0) {
+                aux = gameLogic.whatToPlay(mPlayedCard, mAllPlayers.get(contador));
                 if (!aux.equals("sin carta")) {
                     mPlayedCard = aux;
                     mPlayedCards.add(mPlayedCard);
-                    if (treeSet.size() == 1) {
+                    if (mAllPlayers.get(contador).size() == 1) {
                         System.out.println("AI" + n + " grito \"UNO\"");
                     }
-                    System.out.printf("%nAI%d jugo: %s%n", n, mPlayedCard.substring(0,2));
-                    if (treeSet.isEmpty()) {
+                    System.out.printf("%nAI%d jugo: %s%n", n, mPlayedCard.substring(0, 2));
+                    if (mAllPlayers.get(contador).isEmpty()) {
                         mGameOver = true;
                         System.out.println("AI" + n + " ha ganado");
                         break;
                     }
+                    if (aux.charAt(0) == 'E') {
+                        mReversado *= -1;
+                        reverser *= -1;
+                    }
                 } else {
-                    treeSet.add(mDequeOfCards.poll());
+                    mAllPlayers.get(contador).add(mDequeOfCards.poll());
                     System.out.println("");
                     System.out.println("AI" + n + " arrastro carta");
                 }
-                n++;
+                n += reverser;
+                contador += reverser;
             }
             if (mPlayedCards.size() > 10) {
                 refillTheCards(mPlayedCards);
