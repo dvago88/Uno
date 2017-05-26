@@ -1,14 +1,14 @@
-import java.util.LinkedList;
-
+import java.util.TreeSet;
 public class Jugador {
-    private LinkedList<String> mMyCards;
+    
+    private TreeSet<String> mMyCards;
     private String mName;
 
     public Jugador() {
-        mMyCards = new LinkedList<>();
+        mMyCards = new TreeSet<>(new MyComparator());
     }
-
-    public LinkedList<String> getMyCards() {
+    
+    public TreeSet<String> getMyCards() {
         return mMyCards;
     }
 
@@ -23,6 +23,5 @@ public class Jugador {
     public void setName(String name) {
         mName = name;
     }
-
-
+    
 }
