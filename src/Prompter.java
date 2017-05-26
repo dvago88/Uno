@@ -4,14 +4,12 @@ import java.util.Scanner;
 public class Prompter {
 
     private Jugador mJugador;
-    private Game mGame;
 
-    public Prompter(Jugador jugador, Game game) {
+    public Prompter(Jugador jugador) {
         mJugador = jugador;
-        mGame = game;
     }
 
-    public void gamePresentation() {
+    public static void gamePresentation() {
         Scanner scanner = new Scanner(System.in);
         System.out.printf("%nBIENVENIDO al juego de cartas UNO%n%n%n");
         System.out.printf("%nsi eres un jugador avido y no necesitas leer las reglas o instruciones presiona 0" +
@@ -37,7 +35,7 @@ public class Prompter {
 
     public void showPlayerCards() {
         Iterator<String> iterator;
-        iterator = mJugador.getMyCards().listIterator();
+        iterator = mJugador.getMyCards().iterator();
         System.out.println("");
         System.out.println("============================");
         System.out.println("SUS CARTAS:");
@@ -49,9 +47,9 @@ public class Prompter {
 
     }
 
-    public void showPlayedCard() {
+    public static void showPlayedCard(String mPlayedCard) {
         System.out.println("");
-        System.out.println("La carta en juego es: " + mGame.getPlayedCard().substring(0,2));
+        System.out.println("La carta en juego es: " + mPlayedCard.substring(0,2));
     }
 
 }
