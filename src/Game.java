@@ -27,11 +27,11 @@ public class Game {
     private boolean mGameOver = false;
     private LinkedList<String> mPlayedCards;
     private Vector<TreeSet> mAllPlayers;
-    private boolean Dir; // true si el juego va hacía la derecha o false si va hacía la inzquierda
-    private int Turno; // 0 es el jugador, 1, 2 y 3 son la computadora
+    private boolean mDir; // true si el juego va hacía la derecha o false si va hacía la inzquierda
+    private int mTurno; // 0 es el jugador, 1, 2 y 3 son la computadora
     private int acumulado; //Acumulado de cartas +2 o +4
     private int mReversado;
-    Prompter prompter;
+    private Prompter prompter;
 
     //constructor:
     public Game(Jugador jugador) {
@@ -44,28 +44,28 @@ public class Game {
         gameLogic = new GameLogic();
         mPlayedCards = new LinkedList<>();
         mAllPlayers = new Vector<>();
-        Dir = true;
-        Turno = 0;
+        mDir = true;
+        mTurno = 0;
         acumulado = 0;
         mReversado = 0;
-        prompter  = new Prompter(mJugador);
+        prompter = new Prompter(mJugador);
     }
 
     //getters:
     public String getPlayedCard() {
         return mPlayedCard;
     }
-    
+
     public boolean isGameOver() {
         return mGameOver;
     }
 
     public int getTurn() {
-        return Turno;
+        return mTurno;
     }
 
     public void setTurn(int turn) {
-        Turno = turn;
+        mTurno = turn;
     }
 
     public void fillCards() {
@@ -110,69 +110,10 @@ public class Game {
         }
     }
 
-    /*
-    public void play() {
-        String aux;
-        int playerTurn = playerTurn();
-        if (playerTurn >= 0) {
-            mPlayedCard = mJugador.getMyCards().get(playerTurn);
-            mPlayedCards.add(mPlayedCard);
-            mJugador.getMyCards().remove(playerTurn);
-            if (mPlayedCard.charAt(0) == 'E') {
-                mReversado *= -1;
-            }
-        } else {
-            mJugador.setMyCards(mDequeOfCards.poll());
-        }
-        if (mJugador.getMyCards().size() > 0) {
-            int n = 1;
-            int contador = 0;
-            int reverser = 1;
-            if (mReversado < 0) {
-                contador = mNumberOfRivals - 1;
-                reverser = -1;
-                n = 3;
-            }
-            while (contador < 3 && contador >= 0) {
-                aux = gameLogic.whatToPlay(mPlayedCard, mAllPlayers.get(contador));
-                if (!aux.equals("sin carta")) {
-                    mPlayedCard = aux;
-                    mPlayedCards.add(mPlayedCard);
-                    if (mAllPlayers.get(contador).size() == 1) {
-                        System.out.println("AI" + n + " grito \"UNO\"");
-                    }
-                    System.out.printf("%nAI%d jugo: %s%n", n, mPlayedCard.substring(0, 2));
-                    if (mAllPlayers.get(contador).isEmpty()) {
-                        mGameOver = true;
-                        System.out.println("AI" + n + " ha ganado");
-                        break;
-                    }
-                    if (aux.charAt(0) == 'E') {
-                        mReversado *= -1;
-                        reverser *= -1;
-                    }
-                } else {
-                    mAllPlayers.get(contador).add(mDequeOfCards.poll());
-                    System.out.println("");
-                    System.out.println("AI" + n + " arrastro carta");
-                }
-                n += reverser;
-                contador += reverser;
-            }
-            if (mPlayedCards.size() > 10) {
-                refillTheCards(mPlayedCards);
-            }
-        } else {
-            mGameOver = true;
-            System.out.println("WOOOOOOOOOOOW increible!! le has ganado a la maquina");
-            System.out.println("NOTA: has ganado porque eres un genio no porque el sistema merezca menos de 5");
-        }
-    }*/
-    //TODO: como los strings de las cartas tienen 3 valores hay que modificar este metodo para que lea las cartas asi, pero solo muestre el numero y la letra.
     public void play() {
         Prompter.showPlayedCard(mPlayedCard);
         String aux;
-        if (Turno == 0) {
+        if (mTurno == 0) {
             prompter.showPlayerCards();
             String playerTurn = playerTurn();
             if (!playerTurn.equalsIgnoreCase("Arrastro")) {
@@ -180,13 +121,14 @@ public class Game {
 
                 }
                 mPlayedCard = playerTurn;
+                // TODO: esta carta no debe entrar asi a playedcards pues no tiene a o b al final y cuando se meta al treeset se va a eliminar
                 mPlayedCards.add(mPlayedCard);
             } else {
                 mJugador.setMyCards(mDequeOfCards.poll());
             }
         }
-        if(mJugador.getMyCards().size() > 0){
-            
+        if (mJugador.getMyCards().size() > 0) {
+
         }
 
         if (mJugador.getMyCards().size() > 0) {
@@ -296,13 +238,13 @@ public class Game {
     }
 
     public void siguienteTurno() {
-        if (Dir) { // Si va hacía la derecha
-            Turno = (Turno + 1) % mNumberOfRivals + 1;
-        } else if (!Dir) { // Si va hacía la izquierda
-            if (Turno == 0) {
-                Turno = mNumberOfRivals;
+        if (mDir) { // Si va hacía la derecha
+            mTurno = (mTurno + 1) % mNumberOfRivals + 1;
+        } else if (!mDir) { // Si va hacía la izquierda
+            if (mTurno == 0) {
+                mTurno = mNumberOfRivals;
             } else {
-                Turno = Turno - 1;
+                mTurno = mTurno - 1;
             }
         }
     }
@@ -328,7 +270,7 @@ public class Game {
                 System.out.println("Nuevo color " + aux);
             }
             case 'E': { // Forward
-                Dir = !Dir;
+                mDir = !mDir;
                 mPlayedCard = jPlayedCard;
             }
             case 'D': { // +2
@@ -361,26 +303,27 @@ public class Game {
         String aux;
         do {
             uno = false;
-            
+
             if (acumulado != 0) { // Si tiene +2 o +4 pendiente
                 System.out.println("Introduzca la carta o 0 para arrastrar " + String.valueOf(acumulado) + " cartas");
             } else {
                 System.out.println("Introduzca la carta o 0 si no tiene carta o desea arrastrar");
             }
-            
+
             aux = scanner.nextLine().trim(); // Por qué .trim?
-            if(aux.length()==1  && aux.equals("0")){//Si introducen el cero
-                if(acumulado != 0){
-                    for(int i = 0; i<acumulado; i++){ // Da las cartas acumuladas
-                        mJugador.setMyCards(mDequeOfCards.poll()); 
+            if (aux.length() == 1 && aux.equals("0")) {//Si introducen el cero
+                if (acumulado != 0) {
+                    for (int i = 0; i < acumulado; i++) { // Da las cartas acumuladas
+                        mJugador.setMyCards(mDequeOfCards.poll());
                     }
                     acumulado = 0;
-                }else{
+                } else {
                     mJugador.setMyCards(mDequeOfCards.poll());
                 }
                 return "Arrastro";
             }
-            
+
+            //TODO: agregar un try catch para cuando pongan algo diferente.
             if (cardCanPlay(mPlayedCard, aux.substring(0, 2))) {// Si la carta que tiró se puede jugar
                 if (mJugador.getMyCards().size() == 2) {
                     if (aux.length() == 5 && aux.substring(2, 5).compareToIgnoreCase("UNO") == 0) {// Si la carta viene acompañada de la palabra UNo
@@ -396,13 +339,13 @@ public class Game {
                         mJugador.setMyCards(mDequeOfCards.poll());
                         return ("Arrastro");
                     }
-                } else if(aux.length() == 2) {
+                } else if (aux.length() == 2) {
                     if (mJugador.getMyCards().remove(aux.substring(0, 2) + "a") || mJugador.getMyCards().remove(aux.substring(0, 2) + "b")) { // si la carta está en el maso
                         return aux;
                     }
                 }
             }
-       
+
         } while (!uno);
         return aux;
     }
