@@ -27,10 +27,9 @@ public class Game {
     private boolean mGameOver = false;
     private LinkedList<String> mPlayedCards;
     private Vector<TreeSet> mAllPlayers;
-    private boolean Dir; // true si el juego va hacía la derecha o false si va hacía la inzquierda
-    private int Turno; // 0 es el jugador, 1, 2 y 3 son la computadora
-    private int acumulado; //Acumulado de cartas +2 o +4
-    private int mReversado;
+    private boolean Dir;                        // true si el juego va hacía la derecha o false si va hacía la inzquierda
+    private int Turno;                          // 0 es el jugador, 1, 2 y 3 son la computadora
+    private int acumulado;                      //Acumulado de cartas +2 o +4
     Prompter prompter;
 
     //constructor:
@@ -39,15 +38,13 @@ public class Game {
         mFirstRival = new TreeSet<>(new MyComparator());
         mSecondRival = new TreeSet<>(new MyComparator());
         mThirdRival = new TreeSet<>(new MyComparator());
-        mPlayer = new TreeSet<>();
         mDequeOfCards = new LinkedList<>();
         gameLogic = new GameLogic();
         mPlayedCards = new LinkedList<>();
         mAllPlayers = new Vector<>();
-        Dir = true;
-        Turno = 0;//Turno inicial en cero
+        Dir = true;                             //Direccion inicial a la derecha
+        Turno = 0;                              //Turno inicial en cero
         acumulado = 0;
-        mReversado = 0;
         prompter = new Prompter(mJugador);
     }
 
@@ -80,17 +77,24 @@ public class Game {
                 k = 1;
             }
         }
-        System.out.println(mDequeOfCards);//Borrar esto<--------------------
+        Collections.shuffle(mDequeOfCards);
         Collections.shuffle(mDequeOfCards);
     }
 
     public void howManyPlayers() {
         Scanner scanner = new Scanner(System.in);
-        int jugadores;
+        int jugadores = 0;
+        System.out.println("");
         do {
             System.out.println("Cuantos rivales?");
-            jugadores = scanner.nextInt();
+            try {
+                jugadores = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                jugadores = 0;
+                scanner = new Scanner(System.in);
+            }
         } while (jugadores < 1 || jugadores > 3);
+
         mNumberOfRivals = jugadores;
         if (jugadores == 1) {
             mAllPlayers.add(mFirstRival);
@@ -102,10 +106,18 @@ public class Game {
             mAllPlayers.add(mSecondRival);
             mAllPlayers.add(mThirdRival);
         }
-        System.out.println(String.valueOf(mNumberOfRivals) + " rivales");//Borrar esta linea <--------------------
     }
 
     public void cartaInicial() {
+        String aux;
+        aux = mDequeOfCards.poll();
+        while (!Character.isDigit(aux.charAt(0))) {//Mientras no encuentre un numero
+            mDequeOfCards.add(aux);
+            aux = mDequeOfCards.poll();
+        }
+        mPlayedCard = aux;
+        mPlayedCards.add(mPlayedCard);
+        Prompter.showPlayedCard(mPlayedCard);
 
     }
 
@@ -113,55 +125,45 @@ public class Game {
         for (int j = 0; j < 7; j++) {
             mJugador.setMyCards(mDequeOfCards.poll());
         }
-        mPlayedCard = mDequeOfCards.poll();
-        mPlayedCards.add(mPlayedCard);
 
         for (TreeSet<String> treeSet : mAllPlayers) {
             for (int i = 0; i < 7; i++) {
                 treeSet.add(mDequeOfCards.poll());
             }
-            System.out.println(treeSet);//Borrar esto<------------------
         }
+        cartaInicial();
     }
 
     public void play() {
-        System.out.println("_________________");//Borrar esto
-        System.out.println("Turno: " + Turno);//Borrar esto
-        Prompter.showPlayedCard(mPlayedCard);
+        System.out.println("_________________");
+        System.out.println("Turno: " + Turno);
         String aux;
         if (Turno == 0) {
             prompter.showPlayerCards();
             String playerTurn = playerTurn();
             if (!playerTurn.equalsIgnoreCase("Arrastro")) {
-                System.out.print("Carta jugada: -> ");//Borrar esto
-                System.out.print(playerTurn + " -> ");//Borrar esto
                 mPlayedCards.add(playerTurn);
                 playCard(playerTurn);
             } else {
-                System.out.print("Arrastro -> ");//Borrar esto
                 if (acumulado != 0) {
-                    System.out.println(acumulado + " Cartas");//Borrar esto
                     for (int i = 0; i < acumulado; i++) { // Da las cartas acumuladas
                         mJugador.setMyCards(mDequeOfCards.poll());
                     }
                     acumulado = 0;
                 } else {
-                    System.out.println("1 Carta");//Borrar esto
                     mJugador.setMyCards(mDequeOfCards.poll());
                 }
                 siguienteTurno();
             }
             if (mJugador.getMyCards().size() == 0) {
-                    mGameOver = true;
-                    System.out.println("WOOOOOOOOOOOW increible!! le has ganado a la maquina");
-                    System.out.println("NOTA: has ganado porque eres un genio no porque el sistema merezca menos de 5");
-                }
-            
+                mGameOver = true;
+                System.out.println("WOOOOOOOOOOOW increible!! le has ganado a la maquina");
+                System.out.println("NOTA: has ganado porque eres un genio no porque el sistema merezca menos de 5");
+            }
+
         } else {
             int turnitoAuxiliar = Turno;
-            System.out.println("Baraja: " + mAllPlayers.get(Turno - 1));//Borrar esto
             aux = gameLogic.whatToPlay(mPlayedCard, mAllPlayers.get(Turno - 1), acumulado);
-            System.out.print("la maquina ha jugado " + aux + " -> ");//Borrar esto
             if (!aux.equals("sin carta")) {
                 switch (aux.charAt(0)) {//Que ha jugado la maquina?
                     case 'S': {
@@ -182,9 +184,7 @@ public class Game {
                     case 'C': {
                         mPlayedCard = aux;
                         mPlayedCards.add(aux.substring(0, 1) + "C" + aux.substring(2, 3));
-                        Prompter.showNewColor(mPlayedCard.charAt(1));
                         siguienteTurno();
-                        System.out.println("Cambio de color");//Borrar esto
                         Prompter.showNewColor(aux.charAt(1));
                         break;
                     }
@@ -193,7 +193,6 @@ public class Game {
                         mPlayedCards.add(aux.substring(0, 1) + "C" + aux.substring(2, 3));
                         siguienteTurno();
                         acumulado = acumulado + 4;
-                        System.out.println("Mas cuatro y cambio color");//Borrar esto
                         Prompter.showNewColor(aux.charAt(1));
                         break;
                     }
@@ -201,29 +200,29 @@ public class Game {
                         mPlayedCard = aux;
                         mPlayedCards.add(aux);
                         siguienteTurno();
-                        System.out.println("Carta numerica");//borrar esto
                         break;
                     }
                 }
-                if(mAllPlayers.get(turnitoAuxiliar-1).size()==1){
+                if (mAllPlayers.get(turnitoAuxiliar - 1).size() == 1) {
                     System.out.println("AI" + turnitoAuxiliar + " grito \"UNO\"");
                 }
             } else {// Arrastro
-                System.out.print("Arrastro ");//Borrar esto
+                System.out.print("Arrastro ");
                 if (acumulado != 0) {
-                    System.out.println(acumulado + " Cartas");//Borrar esto
+                    System.out.println(acumulado + " Cartas");
                     for (int i = 0; i < acumulado; i++) { // Da las cartas acumuladas
                         mAllPlayers.get(Turno - 1).add(mDequeOfCards.poll());
                     }
                     acumulado = 0;
                 } else {
-                    System.out.println("1 Carta");//Borrar esto
+                    System.out.println("1 Carta");
                     mAllPlayers.get(Turno - 1).add(mDequeOfCards.poll());
                 }
                 siguienteTurno();
             }
-            if(mAllPlayers.get(turnitoAuxiliar-1).isEmpty()){
+            if (mAllPlayers.get(turnitoAuxiliar - 1).isEmpty()) {
                 mGameOver = true;
+                Prompter.showPlayedCard(mPlayedCard);
                 System.out.println("AI" + turnitoAuxiliar + " ha ganado");
                 return;
             }
@@ -231,6 +230,7 @@ public class Game {
         if (mPlayedCards.size() > 10) {
             refillTheCards(mPlayedCards);
         }
+        Prompter.showPlayedCard(mPlayedCard);
     }
 
     private void refillTheCards(LinkedList<String> playedCards) {
@@ -246,38 +246,28 @@ public class Game {
     public boolean cardCanPlay(String playedCard, String jPlayedCard) {// Carta en la mesa y posible carta a jugar
         switch (jPlayedCard.charAt(0)) {
             case 'S': { // Skip turn
-                System.out.print("Saltar turno -> ");//Borrar esto
                 return (playedCard.charAt(0) == 'S' || (jPlayedCard.charAt(1) == playedCard.charAt(1)) && acumulado == 0);//si había un skip o si tienen el mismo color y no hay +2 o +4
             }
             case 'C': { // Change color
-                System.out.print("Cambio color -> ");//Borrar esto
                 return acumulado == 0; //Si no hay +2 o +4
             }
             case 'E': { //Forward
-                System.out.print("Invertir direccion -> ");//Borrar esto
                 return (playedCard.charAt(0) == 'E' || (jPlayedCard.charAt(1) == playedCard.charAt(1)) && acumulado == 0);//si había un reverse antes o si tienen el mismo color y no hay +2 o +4
             }
             case 'D': { // +2
-                System.out.print("+2 -> ");//Borrar esto
                 if (playedCard.charAt(0) == 'D') {// Si es otro +2 va derecho
-                    System.out.print("Había otro +2 -> ");//Borrar esto
                     return true;
                 } else if (playedCard.charAt(0) == 'B' && acumulado != 0) {// Si antes había un +4 para ti
-                    System.out.print("Hay un +4 para ti -> ");//Borrar esto
                     return false;
-                } else if (playedCard.charAt(1) == jPlayedCard.charAt(1)) {// si tienen el mismo color
-                    System.out.print("Coincidencia de color -> ");//Borrar esto
+                } else if (playedCard.charAt(1) == jPlayedCard.charAt(1)) {// si tienen el mismo colorW
                     return true;
                 }
                 return false;
             }
             case 'B': { // +4 & Change color
-                System.out.print("+4 y cambio color -> ");//Borrar esto
                 if (playedCard.charAt(0) == 'B') {// Si es otro +4 va derecho
-                    System.out.print("Había otro +4 -> ");//Borrar esto
                     return true;
                 } else if (playedCard.charAt(0) == 'D' && acumulado != 0) {// Si antes había un +2 para ti
-                    System.out.print("Hay un +2 para ti ->");//Borrar esto
                     return false;
                 }
                 return true;
@@ -285,12 +275,10 @@ public class Game {
             default: {// Si es una carta numerica
                 int aux = Character.getNumericValue(jPlayedCard.charAt(0));
                 if ((aux > 0 && aux < 10) && acumulado == 0) {// Si el valor está entre 0 y 9 y no hay +2 o +4 
-                    System.out.print("Numero valido -> ");//Borrar esto
                     if (playedCard.charAt(0) == jPlayedCard.charAt(0)) {// si tienen el mismo número 
-                        System.out.print("Mismo numero -> ");//Borrar esto
                         return true;
                     } else if (playedCard.charAt(1) == jPlayedCard.charAt(1)) {// si tienen el mismo color
-                        System.out.print("Mismo color -> ");//Borrar esto
+
                         return true;
                     }
                 }
@@ -306,19 +294,15 @@ public class Game {
                 siguienteTurno();// Avanza 2 turnos
                 siguienteTurno();
                 mPlayedCard = jPlayedCard; // Actualiza carta jugada
-                System.out.println("Turno saltado");//Borrar esto
                 break;
             }
             case 'C': {  // Change color
                 String aux;
-                System.out.println("Ingrese el color que desea A = Azul, R = Rojo, V = Verde, M = Amarillo");
-                aux = scanner.next();
-                mPlayedCard = jPlayedCard;
                 //Debe ingresar un color valido
-                while (aux.charAt(0) != 'A' && aux.charAt(0) != 'V' && aux.charAt(0) != 'M' && aux.charAt(0) != 'R') {
+                do {
                     System.out.println("Ingrese el color que desea A = Azul, R = Rojo, V = Verde, M = Amarillo");
                     aux = scanner.next();
-                }
+                } while (aux.charAt(0) != 'A' && aux.charAt(0) != 'V' && aux.charAt(0) != 'M' && aux.charAt(0) != 'R');
                 mPlayedCard = mPlayedCard.substring(0, 1) + aux + mPlayedCard.substring(2, 3);
                 Prompter.showNewColor(aux.charAt(0));
                 siguienteTurno();
@@ -328,27 +312,24 @@ public class Game {
                 Dir = !Dir;
                 mPlayedCard = jPlayedCard;
                 siguienteTurno();
-                System.out.println("Direccion invertida");//Borrar esto
                 break;
             }
             case 'D': { // +2
                 acumulado = acumulado + 2;
                 mPlayedCard = jPlayedCard;
                 siguienteTurno();
-                System.out.println("Más dos");//Borrar esto
                 break;
             }
             case 'B': {
                 acumulado = acumulado + 4;
                 mPlayedCard = jPlayedCard;
                 String aux;
-                System.out.println("Ingrese el color que desea A = Azul, R = Rojo, V = Verde, M = Amarillo");
-                aux = scanner.next();
                 //Debe ingresar un color valido
-                while (aux.charAt(0) != 'A' && aux.charAt(0) != 'V' && aux.charAt(0) != 'M' && aux.charAt(0) != 'R') {
+                do {
                     System.out.println("Ingrese el color que desea A = Azul, R = Rojo, V = Verde, M = Amarillo");
                     aux = scanner.next();
-                }
+                } while (aux.charAt(0) != 'A' && aux.charAt(0) != 'V' && aux.charAt(0) != 'M' && aux.charAt(0) != 'R');
+
                 mPlayedCard = mPlayedCard.substring(0, 1) + aux + mPlayedCard.substring(2, 3);
                 Prompter.showNewColor(aux.charAt(0));
                 siguienteTurno();
@@ -357,7 +338,6 @@ public class Game {
             default: {
                 mPlayedCard = jPlayedCard;
                 siguienteTurno();
-                System.out.println("Carta numerica");//Borrar esto
                 break;
             }
         }
@@ -396,48 +376,36 @@ public class Game {
             }
 
             if ((aux.length() == 2 || aux.length() == 5) && cardCanPlay(mPlayedCard, aux.substring(0, 2))) {// Si la carta que tiró se puede jugar
-                System.out.print("La carta se puede jugar -> ");//Borrar esto
                 if (mJugador.getMyCards().size() == 2) {//Si solo quedan 2 cartas en el maso del jugadr
-                    System.out.print("Quedan solo 2 cartas -> ");//Borrar esto
                     if (aux.length() == 5 && aux.substring(2, 5).compareToIgnoreCase("UNO") == 0) {// Si la carta viene acompañada de la palabra UNo
                         System.out.print("Gritaste uno -> ");//Borrar esto
                         aux1 = buscarCarta(aux.substring(0, 2));
                         if (!aux1.equals("no esta")) {
-                            System.out.print("Carta encontrada -> ");//Borrar esto
-                            System.out.print(aux1 + " -> ");//Borrar esto
                             uno = true;
                             return aux1;
                         } else {
-                            System.out.print("Carta no encontrada -> ");//Borrar esto
                             uno = false;
                         }
                     } else { // si no dice uno
+                        acumulado = acumulado + 2;
                         System.out.println("");
-                        System.out.println("No dijiste \\\"UNO\\\" arrastra 2 cartas, introduce cualquier numero para continuar");
+                        System.out.println("No dijiste \\\"UNO\\\" arrastra " + acumulado + " cartas, introduce cualquier numero para continuar");
                         scanner.next();
-                        acumulado = 2;
                         return ("Arrastro");
                     }
                 } else if (aux.length() == 2) {
-                    System.out.print("Turno normal -> ");//Borrar esto
                     aux1 = buscarCarta(aux.substring(0, 2));
                     if (!aux1.equals("no esta")) {
-                        System.out.print("Carta encontrada -> ");//Borrar esto
-                        System.out.print(aux1 + " -> ");//Borrar esto
                         return aux1;
                     }
                 }
-            } else {
-                System.out.println("Carta no valida.");//Borrar esto
-            }
-
+            } 
         } while (!uno);
         return aux;
     }
 
     public String buscarCarta(String Carta) {
         String aux = Carta;
-        System.out.print("Buscando carta -> ");//Borrar esto
         if (mJugador.getMyCards().remove(aux + "a")) {
             return aux + "a";
         } else if (mJugador.getMyCards().remove(aux + "b")) {
