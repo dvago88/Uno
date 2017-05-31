@@ -1,4 +1,3 @@
-
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -37,7 +36,7 @@ public class Prompter {
                         + "sin embargo se recomienda revisar bien la entrada antes de presionar enter.");
             }
         } catch (java.util.InputMismatchException e) {
-                scanner = new Scanner(System.in);
+            scanner = new Scanner(System.in);
         }
 
     }
@@ -81,4 +80,3 @@ public class Prompter {
         }
     }
 }
-

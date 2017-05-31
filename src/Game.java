@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.TreeSet;
 import java.util.Vector;
+
 /*
     * R=rojo
     * V=verde
@@ -30,10 +31,10 @@ public class Game {
     private boolean mGameOver = false;
     private LinkedList<String> mPlayedCards;
     private Vector<TreeSet> mAllPlayers;
-    private boolean Dir;                        // true si el juego va hacía la derecha o false si va hacía la inzquierda
+    private boolean mDir;                        // true si el juego va hacía la derecha o false si va hacía la inzquierda
     private int Turno;                          // 0 es el jugador, 1, 2 y 3 son la computadora
     private int acumulado;                      //Acumulado de cartas +2 o +4
-    Prompter prompter;
+    private Prompter prompter;
 
     //constructor:
     public Game(Jugador jugador) {
@@ -45,7 +46,7 @@ public class Game {
         gameLogic = new GameLogic();
         mPlayedCards = new LinkedList<>();
         mAllPlayers = new Vector<>();
-        Dir = true;                             //Direccion inicial a la derecha
+        mDir = true;                             //Direccion inicial a la derecha
         Turno = 0;                              //Turno inicial en cero
         acumulado = 0;
         prompter = new Prompter(mJugador);
@@ -80,13 +81,13 @@ public class Game {
                 k = 1;
             }
         }
-        Collections.shuffle(mDequeOfCards);
+        //TODO por que 2 shuffles?
         Collections.shuffle(mDequeOfCards);
     }
 
     public void howManyPlayers() {
         Scanner scanner = new Scanner(System.in);
-        int jugadores = 0;
+        int jugadores;
         System.out.println("");
         do {
             System.out.println("Cuantos rivales?");
@@ -111,7 +112,7 @@ public class Game {
         }
     }
 
-    public void cartaInicial() {
+    private void cartaInicial() {
         String aux;
         aux = mDequeOfCards.poll();
         while (!Character.isDigit(aux.charAt(0))) {//Mientras no encuentre un numero
@@ -125,7 +126,8 @@ public class Game {
     }
 
     public void dealTheCards() {
-        for (int j = 0; j < 7; j++) {
+        //TODO volver a poner el 7 en vez del 2 aca
+        for (int j = 0; j < 2; j++) {
             mJugador.setMyCards(mDequeOfCards.poll());
         }
 
@@ -138,6 +140,7 @@ public class Game {
     }
 
     public void play() {
+        // TODO para que mostrar este turno?
         System.out.println("_________________");
         System.out.println("Turno: " + Turno);
         String aux;
@@ -246,7 +249,7 @@ public class Game {
         mPlayedCards.clear();
     }
 
-    public boolean cardCanPlay(String playedCard, String jPlayedCard) {// Carta en la mesa y posible carta a jugar
+    private boolean cardCanPlay(String playedCard, String jPlayedCard) {// Carta en la mesa y posible carta a jugar
         switch (jPlayedCard.charAt(0)) {
             case 'S': { // Skip turn
                 return (playedCard.charAt(0) == 'S' || (jPlayedCard.charAt(1) == playedCard.charAt(1)) && acumulado == 0);//si había un skip o si tienen el mismo color y no hay +2 o +4
@@ -290,7 +293,7 @@ public class Game {
         }
     }
 
-    public boolean playCard(String jPlayedCard) {
+    private void playCard(String jPlayedCard) {
         Scanner scanner = new Scanner(System.in);
         switch (jPlayedCard.charAt(0)) {
             case 'S': { // Skip turn
@@ -312,7 +315,7 @@ public class Game {
                 break;
             }
             case 'E': { // Forward
-                Dir = !Dir;
+                mDir = !mDir;
                 mPlayedCard = jPlayedCard;
                 siguienteTurno();
                 break;
@@ -344,13 +347,12 @@ public class Game {
                 break;
             }
         }
-        return false;
     }
 
-    public void siguienteTurno() {
-        if (Dir) { // Si va hacía la derecha
+    private void siguienteTurno() {
+        if (mDir) { // Si va hacía la derecha
             Turno = (Turno + 1) % (mNumberOfRivals + 1);
-        } else if (!Dir) { // Si va hacía la izquierda
+        } else { // Si va hacía la izquierda
             if (Turno == 0) {
                 Turno = mNumberOfRivals;
             } else {
@@ -359,12 +361,12 @@ public class Game {
         }
     }
 
-    public String playerTurn() {
+    private String playerTurn() {
         Scanner scanner = new Scanner(System.in);
-        boolean uno;
+        //boolean uno;
         String aux, aux1;
         do {
-            uno = false;
+            //uno = false;
 
             if (acumulado != 0) { // Si tiene +2 o +4 pendiente
                 System.out.println("Introduzca la carta especial o 0 para arrastrar " + String.valueOf(acumulado) + " cartas");
@@ -378,21 +380,21 @@ public class Game {
                 return "Arrastro";
             }
 
-            if ((aux.length() == 2 || aux.length() == 5) && cardCanPlay(mPlayedCard, aux.substring(0, 2))) {// Si la carta que tiró se puede jugar
+            if ((aux.length() == 2 || aux.length() == 6) && cardCanPlay(mPlayedCard, aux.substring(0, 2))) {// Si la carta que tiró se puede jugar
                 if (mJugador.getMyCards().size() == 2) {//Si solo quedan 2 cartas en el maso del jugadr
-                    if (aux.length() == 5 && aux.substring(2, 5).compareToIgnoreCase("UNO") == 0) {// Si la carta viene acompañada de la palabra UNo
-                        System.out.print("Gritaste uno -> ");//Borrar esto
+                    if (aux.length() == 6 && aux.substring(3, 6).compareToIgnoreCase("UNO") == 0) {// Si la carta viene acompañada de la palabra UNo
                         aux1 = buscarCarta(aux.substring(0, 2));
                         if (!aux1.equals("no esta")) {
-                            uno = true;
+                            // TODO para que este uno igual true si nunca se utiliza?
+                            //uno = true;
                             return aux1;
-                        } else {
+                        } /*else {
                             uno = false;
-                        }
+                        }*/
                     } else { // si no dice uno
                         acumulado = acumulado + 2;
                         System.out.println("");
-                        System.out.println("No dijiste \\\"UNO\\\" arrastra " + acumulado + " cartas, introduce cualquier numero para continuar");
+                        System.out.println("No dijiste \"UNO\" arrastra " + acumulado + " cartas, introduce cualquier numero para continuar");
                         scanner.next();
                         return ("Arrastro");
                     }
@@ -402,21 +404,20 @@ public class Game {
                         return aux1;
                     }
                 }
-            } 
-        } while (!uno);
-        return aux;
+            }
+            //TODO !uno siempre es true, para que ponerlo?
+        } while (/*!uno*/true);
     }
 
-    public String buscarCarta(String Carta) {
-        String aux = Carta;
-        if (mJugador.getMyCards().remove(aux + "a")) {
-            return aux + "a";
-        } else if (mJugador.getMyCards().remove(aux + "b")) {
-            return aux + "b";
+    private String buscarCarta(String Carta) {
+        if (mJugador.getMyCards().remove(Carta + "a")) {
+            return Carta + "a";
+        } else if (mJugador.getMyCards().remove(Carta + "b")) {
+            return Carta + "b";
         }
         for (int i = 1; i < 5; i++) {
-            if (mJugador.getMyCards().remove(aux + String.valueOf(i))) {
-                return aux + String.valueOf(i);
+            if (mJugador.getMyCards().remove(Carta + String.valueOf(i))) {
+                return Carta + String.valueOf(i);
             }
         }
         return "no esta";
