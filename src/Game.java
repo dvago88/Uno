@@ -126,8 +126,7 @@ public class Game {
     }
 
     public void dealTheCards() {
-        //TODO volver a poner el 7 en vez del 2 aca
-        for (int j = 0; j < 2; j++) {
+        for (int j = 0; j < 7; j++) {
             mJugador.setMyCards(mDequeOfCards.poll());
         }
 
