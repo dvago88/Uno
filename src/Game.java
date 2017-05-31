@@ -92,7 +92,7 @@ public class Game {
             System.out.println("Cuantos rivales?");
             try {
                 jugadores = scanner.nextInt();
-            } catch (InputMismatchException e) {
+            } catch (java.util.InputMismatchException e) {
                 jugadores = 0;
                 scanner = new Scanner(System.in);
             }
