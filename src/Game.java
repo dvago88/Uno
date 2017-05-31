@@ -1,6 +1,9 @@
-
-import java.util.*;
-
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Scanner;
+import java.util.TreeSet;
+import java.util.Vector;
 /*
     * R=rojo
     * V=verde
