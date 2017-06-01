@@ -74,7 +74,7 @@ public class GameLogic {
             iterator = cards.iterator();
             String posible2 = "sin carta"; // para guardar una posible2 coincidencia de numero o carta si no hay color
             String posible3 = "sin carta";// Guardar un posible2 cambio de color o un +4 como última opción
-            while (iterator.hasNext()) {//Buscamos color primeramente en todo el maso o sino coincidencia de carta
+            while (iterator.hasNext()) {//Buscamos color primeramente en to-do el maso o sino coincidencia de carta
                 posible1 = iterator.next();
 
                 switch (posible1.charAt(1)) {// Contamos los colores en total

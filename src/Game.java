@@ -81,7 +81,7 @@ public class Game {
                 k = 1;
             }
         }
-        //TODO por que 2 shuffles?
+        Collections.shuffle(mDequeOfCards);
         Collections.shuffle(mDequeOfCards);
     }
 
@@ -139,7 +139,6 @@ public class Game {
     }
 
     public void play() {
-        // TODO para que mostrar este turno?
         System.out.println("_________________");
         System.out.println("Turno: " + Turno);
         String aux;
@@ -362,10 +361,8 @@ public class Game {
 
     private String playerTurn() {
         Scanner scanner = new Scanner(System.in);
-        //boolean uno;
         String aux, aux1;
         do {
-            //uno = false;
 
             if (acumulado != 0) { // Si tiene +2 o +4 pendiente
                 System.out.println("Introduzca la carta especial o 0 para arrastrar " + String.valueOf(acumulado) + " cartas");
@@ -384,12 +381,8 @@ public class Game {
                     if (aux.length() == 6 && aux.substring(3, 6).compareToIgnoreCase("UNO") == 0) {// Si la carta viene acompañada de la palabra UNo
                         aux1 = buscarCarta(aux.substring(0, 2));
                         if (!aux1.equals("no esta")) {
-                            // TODO para que este uno igual true si nunca se utiliza?
-                            //uno = true;
                             return aux1;
-                        } /*else {
-                            uno = false;
-                        }*/
+                        }
                     } else { // si no dice uno
                         acumulado = acumulado + 2;
                         System.out.println("");
@@ -404,8 +397,7 @@ public class Game {
                     }
                 }
             }
-            //TODO !uno siempre es true, para que ponerlo?
-        } while (/*!uno*/true);
+        } while (true);
     }
 
     private String buscarCarta(String Carta) {

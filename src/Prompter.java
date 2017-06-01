@@ -27,13 +27,15 @@ public class Prompter {
                         + "___________________________________________________________%n"
                         + "=======|C-Color||S-Skip||E-Revers||D-Dos||B-Cuatro||=======%n"
                         + "¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯%n"
-                        + "4.Para jugar se debe introducir  la carta empezando por el numero 1 o una carta especial. Si se desea arrastrar%n"
-                        + "se debe introducir el numero 0.%n"
-                        + "5. Cuando se tengan solo 2 cartas restantes en la mano y se vaya a tirar una, se debe poner la posicion de la carta%n"
+                        + "4.Para jugar se debe introducir  la carta como aparece en la baraja seguida de la tecla enter, ejemplo: 2R,%n" +
+                        " para el 2 rojo o EV, para la reversa verde. Si se desea arrastrar se debe introducir el numero 0%n"
+                        +"5. Para cambiar el color se pone la carta especial y presionar enter,el programa preguntará que color se desea, se debe introducir solo la" +
+                        "letra inicial del color. %n"
+                        + "6. Cuando se tengan solo 2 cartas restantes en la mano y se vaya a tirar una, se la carta%n"
                         + "a tirar seguido de un espacio y la palabra \"UNO\"*, sin las comillas. En caso tal de no hacerlo se penalizara al jugador%n"
                         + "con 2 cartas adicionales.%n");
                 System.out.printf("*El programa esta diseñado para soportar errores a la hora de ingresar los numeros y la palabra \"UNO\",%n"
-                        + "sin embargo se recomienda revisar bien la entrada antes de presionar enter.");
+                        + "sin embargo se recomienda revisar bien la entrada antes de presionar enter.%n");
             }
         } catch (java.util.InputMismatchException e) {
             scanner = new Scanner(System.in);
